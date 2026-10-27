@@ -1,9 +1,9 @@
-// SENRA : application Azure « Senra Launcher » (annuaire de Senra), réglée le 2026-10-27 par outils/configurer.py --azure.
-// Valable pour les joueurs une fois validée par Mojang (formulaire https://aka.ms/mce-reviewappid, voir PUBLIER.md).
+// SENRA : TEMPORAIRE (version staff 1.0.0-beta.1) : identifiant d'Helios, en attendant l'accord de Mojang.
+// Celui de Senra : e45f13df-d32f-419d-8d6d-05a093c39818 (outils/configurer.py --azure).
 // NOTE FOR THIRD-PARTY
 // REPLACE THIS CLIENT ID WITH YOUR APPLICATION ID.
 // SEE https://github.com/dscalzi/HeliosLauncher/blob/master/docs/MicrosoftAuth.md
-exports.AZURE_CLIENT_ID = 'e45f13df-d32f-419d-8d6d-05a093c39818'
+exports.AZURE_CLIENT_ID = '1ce6e35a-126f-48fd-97fb-54d143ac6d45'
 // SEE NOTE ABOVE.
 
 
