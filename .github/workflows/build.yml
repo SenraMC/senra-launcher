@@ -30,7 +30,10 @@ jobs:
       - run: npm ci
         shell: bash
 
-      - run: npm run dist
+      - run: |
+          # version …-beta.N (staff) : publiée tout de suite en pré-version ; les autres restent en brouillon
+          if node -p "require('./package.json').version" | grep -q -- '-beta'; then export EP_PRE_RELEASE=true; fi
+          npm run dist
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
