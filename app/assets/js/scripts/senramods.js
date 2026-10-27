@@ -148,6 +148,11 @@ function senraRendre(){
         </div>`).join('') : `<p class="vide">Aucun mod ajouté à « ${senraEsc(profil.nom)} ». Cherche-en un ci-dessous.</p>`
     senraRendreResultats()
     senraMajConseilMemoire(rec, profil)
+    // shaders : seulement avec Iris coché
+    senraRendreShaders()
+    if(iris && senraShaders == null){
+        senraChercherShaders('')
+    }
 }
 
 function senraAvisIris(){
@@ -422,6 +427,230 @@ let senraAttente = null
 document.getElementById('senraCherche').addEventListener('input', e => {
     clearTimeout(senraAttente)
     senraAttente = setTimeout(() => senraChercher(e.target.value.trim()), 300)
+})
+
+/* ---------- shaders (Iris coché) : ceux installés et la recherche Modrinth ---------- */
+const senraFs = require('fs-extra')
+const senraChemin = require('path')
+const senraHachage = require('crypto')
+const SENRA_FACETTES_SHADERS = JSON.stringify([['project_type:shader'], ['categories:iris']])
+let senraShaders = null
+let senraNumeroShaders = 0
+const senraEtatsShader = {}
+
+const senraDossierShaders = () => senraChemin.join(ConfigManager.getInstanceDirectory(), senra.servId, 'shaderpacks')
+const senraFichierIris = () => senraChemin.join(ConfigManager.getInstanceDirectory(), senra.servId, 'config', 'iris.properties')
+// nom, image et projet Modrinth des shaders installés par le launcher
+const senraFichierInfos = () => senraChemin.join(senraDossierShaders(), '.senra-shaders.json')
+
+function senraLireJson(fichier){
+    try {
+        return senraFs.readJsonSync(fichier)
+    } catch {
+        return {}
+    }
+}
+
+/** Les réglages d'Iris (config/iris.properties) : enableShaders et shaderPack. */
+function senraLireIris(){
+    const valeurs = {}
+    try {
+        for(const ligne of senraFs.readFileSync(senraFichierIris(), 'utf8').split(/\r?\n/)){
+            const i = ligne.indexOf('=')
+            if(i > 0 && !ligne.startsWith('#')){
+                valeurs[ligne.slice(0, i)] = ligne.slice(i + 1)
+            }
+        }
+    } catch {
+        // pas encore de fichier : Iris le créera au premier lancement
+    }
+    return valeurs
+}
+
+function senraEcrireIris(changements){
+    let lignes = []
+    try {
+        lignes = senraFs.readFileSync(senraFichierIris(), 'utf8').split(/\r?\n/).filter(l => l !== '')
+    } catch {
+        lignes = []
+    }
+    const restants = { ...changements }
+    lignes = lignes.map(l => {
+        const i = l.indexOf('=')
+        const cle = i > 0 && !l.startsWith('#') ? l.slice(0, i) : null
+        if(cle != null && cle in restants){
+            const ligne = `${cle}=${restants[cle]}`
+            delete restants[cle]
+            return ligne
+        }
+        return l
+    })
+    for(const [cle, valeur] of Object.entries(restants)){
+        lignes.push(`${cle}=${valeur}`)
+    }
+    senraFs.outputFileSync(senraFichierIris(), lignes.join('\n') + '\n')
+}
+
+function senraShadersInstalles(){
+    try {
+        return senraFs.readdirSync(senraDossierShaders(), { withFileTypes: true })
+            .filter(e => e.isDirectory() || e.name.toLowerCase().endsWith('.zip'))
+            .map(e => ({ fichier: e.name, octets: e.isFile() ? senraFs.statSync(senraChemin.join(senraDossierShaders(), e.name)).size : 0 }))
+    } catch {
+        return []
+    }
+}
+
+function senraRendreShaders(){
+    const iris = senra.parSlug.iris ? senraEffectif(senra.parSlug.iris) : false
+    document.getElementById('senraSecShaders').hidden = !iris
+    if(!iris){
+        return
+    }
+    const installes = senraShadersInstalles()
+    const infos = senraLireJson(senraFichierInfos())
+    const reglages = senraLireIris()
+    const actif = reglages.enableShaders === 'true' ? reglages.shaderPack : ''
+    const nomDe = f => infos[f]?.nom || f.replace(/\.zip$/i, '')
+    const n = installes.length
+    document.getElementById('senraResumeShaders').textContent = n
+        ? `${n} ${n > 1 ? 'shaders installés' : 'shader installé'} · ${actif ? `utilisé : ${nomDe(actif)}` : 'aucun utilisé'}`
+        : 'Aucun shader installé'
+    document.getElementById('senraShadersInstalles').innerHTML = n ? installes.map(s => {
+        const info = infos[s.fichier] || {}
+        const utilise = s.fichier === actif
+        return `<div class="mod ajout">
+            ${info.icone ? `<img class="icone" src="${senraEsc(info.icone)}" alt="">` : `<span class="icone sans-icone" aria-hidden="true">${senraEsc(nomDe(s.fichier)[0])}</span>`}
+            <div><div class="nom"><span>${senraEsc(nomDe(s.fichier))}</span>${utilise ? '<span class="statut-ajout">Utilisé</span>' : ''}</div>
+                <p class="desc une-ligne">${senraEsc(info.desc || s.fichier)}</p></div>
+            <span class="taille num">${s.octets ? senraMo(senraDixiemes(s.octets)) : ''}</span>
+            <span class="commande">${utilise
+                ? '<button class="bouton petit" type="button" data-shader-couper>Désactiver</button>'
+                : `<button class="bouton petit" type="button" data-shader-utiliser="${senraEsc(s.fichier)}">Utiliser</button>`}
+                <button class="bouton petit" type="button" data-shader-retirer="${senraEsc(s.fichier)}" aria-label="Retirer ${senraEsc(nomDe(s.fichier))}">Retirer</button></span>
+        </div>`
+    }).join('') : '<p class="vide">Aucun shader installé. Cherche-en un ci-dessous.</p>'
+    senraRendreResultatsShaders()
+}
+
+function senraStatutShader(h){
+    const raison = SenraProfils.raisonInterdit(h, senra.serv.rawServer.senra)
+    if(raison) return `<span class="pastille interdit">${senraEsc(raison)}</span>`
+    const infos = senraLireJson(senraFichierInfos())
+    if(Object.values(infos).some(i => i.slug === h.slug)) return '<button class="bouton petit" type="button" disabled><svg><use href="#i-coche"/></svg>Installé</button>'
+    const e = senraEtatsShader[h.slug]
+    if(e === 'installation') return '<button class="bouton petit" type="button" disabled>Installation…</button>'
+    if(e) return `<span class="statut-ajout">${senraEsc(e)}</span>`
+    return `<button class="bouton petit" type="button" data-shader-installer="${senraEsc(h.slug)}" aria-label="Installer ${senraEsc(h.nom)}"><svg><use href="#i-plus"/></svg>Installer</button>`
+}
+
+function senraRendreResultatsShaders(){
+    if(senraShaders == null) return
+    document.getElementById('senraResultatsShaders').innerHTML = senraShaders.map(h => `<div class="mod resultat">
+            ${h.icone ? `<img class="icone" src="${senraEsc(h.icone)}" alt="" loading="lazy">` : `<span class="icone sans-icone" aria-hidden="true">${senraEsc(h.nom[0])}</span>`}
+            <div><div class="nom"><span>${senraEsc(h.nom)}</span></div>
+                <p class="desc une-ligne">par ${senraEsc(h.auteur)} · ${senraMillions(h.telechargements)} téléchargements · ${senraEsc(h.desc)}</p></div>
+            <span class="commande">${senraStatutShader(h)}</span>
+        </div>`).join('')
+}
+
+async function senraChercherShaders(q){
+    const n = ++senraNumeroShaders
+    const etat = document.getElementById('senraEtatShaders')
+    etat.textContent = q ? 'Recherche sur Modrinth…' : 'Chargement des shaders les plus téléchargés…'
+    try {
+        const url = `${SENRA_API}/search?` + new URLSearchParams({ query: q, facets: SENRA_FACETTES_SHADERS, index: q ? 'relevance' : 'downloads', limit: q ? '8' : '6' })
+        const r = await fetch(url)
+        if(!r.ok) throw new Error(String(r.status))
+        const j = await r.json()
+        if(n !== senraNumeroShaders) return
+        senraShaders = j.hits.map(h => ({ slug: h.slug, nom: h.title, auteur: h.author, desc: h.description, icone: h.icon_url, telechargements: h.downloads }))
+        etat.textContent = !q ? 'Les plus téléchargés pour Iris'
+            : j.total_hits ? `${senraEntier.format(j.total_hits)} ${j.total_hits > 1 ? 'shaders trouvés' : 'shader trouvé'}${j.total_hits > senraShaders.length ? ` · les ${senraShaders.length} plus proches` : ''}`
+                : `Aucun shader pour Iris ne correspond à « ${q} ».`
+    } catch {
+        if(n !== senraNumeroShaders) return
+        senraShaders = []
+        etat.innerHTML = 'Modrinth ne répond pas. <button class="lien" type="button" id="senraReessayerShaders">Réessayer</button>'
+    }
+    senraRendreResultatsShaders()
+}
+
+/** Télécharge la dernière version pour Iris (celle qui annonce la 1.21.11 si elle existe) et l'utilise tout de suite. */
+async function senraInstallerShader(slug){
+    const h = senraShaders.find(x => x.slug === slug)
+    senraEtatsShader[slug] = 'installation'
+    senraRendreResultatsShaders()
+    try {
+        const versions = async jeu => {
+            const q = new URLSearchParams({ loaders: '["iris"]' })
+            if(jeu) q.set('game_versions', '["1.21.11"]')
+            const r = await fetch(`${SENRA_API}/project/${encodeURIComponent(slug)}/version?${q}`)
+            if(!r.ok) throw new Error(String(r.status))
+            return r.json()
+        }
+        let vs = await versions(true)
+        if(!vs.length) vs = await versions(false)
+        if(!vs.length){
+            senraEtatsShader[slug] = 'Pas de version pour Iris'
+            senraRendreResultatsShaders()
+            return
+        }
+        const f = vs[0].files.find(x => x.primary) || vs[0].files[0]
+        const donnees = Buffer.from(await (await fetch(f.url)).arrayBuffer())
+        if(senraHachage.createHash('sha1').update(donnees).digest('hex') !== f.hashes.sha1) throw new Error('fichier abîmé')
+        const nom = senraChemin.basename(f.filename)
+        await senraFs.outputFile(senraChemin.join(senraDossierShaders(), nom), donnees)
+        const infos = senraLireJson(senraFichierInfos())
+        infos[nom] = { slug, nom: h.nom, desc: h.desc, icone: h.icone, version: vs[0].version_number }
+        await senraFs.outputJson(senraFichierInfos(), infos)
+        senraEcrireIris({ enableShaders: 'true', shaderPack: nom })
+        delete senraEtatsShader[slug]
+    } catch {
+        senraEtatsShader[slug] = 'Modrinth ne répond pas'
+    }
+    senraRendreShaders()
+}
+
+document.getElementById('senraSecShaders').addEventListener('click', e => {
+    const utiliser = e.target.closest('[data-shader-utiliser]')
+    if(utiliser){
+        senraEcrireIris({ enableShaders: 'true', shaderPack: utiliser.dataset.shaderUtiliser })
+        senraRendreShaders()
+        return
+    }
+    if(e.target.closest('[data-shader-couper]')){
+        senraEcrireIris({ enableShaders: 'false' })
+        senraRendreShaders()
+        return
+    }
+    const retirer = e.target.closest('[data-shader-retirer]')
+    if(retirer){
+        const fichier = retirer.dataset.shaderRetirer
+        senraFs.removeSync(senraChemin.join(senraDossierShaders(), fichier))
+        const infos = senraLireJson(senraFichierInfos())
+        delete infos[fichier]
+        senraFs.outputJsonSync(senraFichierInfos(), infos)
+        if(senraLireIris().shaderPack === fichier){
+            senraEcrireIris({ enableShaders: 'false', shaderPack: '' })
+        }
+        senraRendreShaders()
+        return
+    }
+    const installer = e.target.closest('[data-shader-installer]')
+    if(installer){
+        senraInstallerShader(installer.dataset.shaderInstaller)
+        return
+    }
+    if(e.target.id === 'senraReessayerShaders'){
+        senraChercherShaders(document.getElementById('senraChercheShader').value.trim())
+    }
+})
+
+let senraAttenteShaders = null
+document.getElementById('senraChercheShader').addEventListener('input', e => {
+    clearTimeout(senraAttenteShaders)
+    senraAttenteShaders = setTimeout(() => senraChercherShaders(e.target.value.trim()), 300)
 })
 
 /* ---------- remplacements des fonctions de l'onglet Mods d'Helios ---------- */
