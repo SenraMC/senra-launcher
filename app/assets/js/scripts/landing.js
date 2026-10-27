@@ -6,7 +6,10 @@
 const {
     getServerStatus
 }                             = require('helios-core/mojang')
+// isDisplayableError et RestResponseStatus servent aussi à settings.js et login.js (erreurs de connexion).
 const {
+    RestResponseStatus,
+    isDisplayableError,
     validateLocalFile
 }                             = require('helios-core/common')
 const {
