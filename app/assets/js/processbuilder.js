@@ -10,6 +10,7 @@ const path                  = require('path')
 
 const ConfigManager            = require('./configmanager')
 const SenraProfils             = require('./senraprofils')
+const SenraVerif               = require('./senraverif')
 
 const logger = LoggerUtil.getLogger('ProcessBuilder')
 
@@ -54,7 +55,9 @@ class ProcessBuilder {
         this.usingFabricLoader = this.server.modules.some(mdl => mdl.rawModule.type === Type.Fabric)
         logger.info('Using fabric loader:', this.usingFabricLoader)
         const modObj = this.resolveModConfiguration(ConfigManager.getModConfiguration(this.server.rawServer.id).mods, this.server.modules)
-        
+        // Senra : une bibliothèque n'est chargée que si un mod coché en a besoin (Kotlin pour Zoomify, etc.)
+        modObj.fMods = SenraVerif.filtrerBibliotheques(modObj.fMods)
+
         // Mod list below 1.13
         // Fabric only supports 1.14+
         if(!mcVersionAtLeast('1.13', this.server.rawServer.minecraftVersion)){

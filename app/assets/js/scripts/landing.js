@@ -13,7 +13,6 @@ const {
     validateLocalFile
 }                             = require('helios-core/common')
 const {
-    FullRepair,
     DistributionIndexProcessor,
     MojangIndexProcessor,
     downloadFile
@@ -30,6 +29,7 @@ const {
 // Internal Requirements
 const DiscordWrapper          = require('./assets/js/discordwrapper')
 const ProcessBuilder          = require('./assets/js/processbuilder')
+const SenraVerif              = require('./assets/js/senraverif')
 
 // Launch Elements
 const senraLancement          = document.getElementById('senraLancement')
@@ -493,9 +493,11 @@ let hasRPC = false
 // Change this if your server uses something different.
 const GAME_JOINED_REGEX = /\[.+\]: Sound engine started/
 // Senra : étapes du démarrage de Minecraft lues dans son journal, jusqu'à la fenêtre du jeu (signal de SenraHUD)
+let nombreModsLances = 0
 const ETAPES_DEMARRAGE = [
     { re: /Loading Minecraft .+ with Fabric Loader/, pct: 10, texte: () => 'Chargement de Fabric…' },
-    { re: /Loading (\d+) mods/, pct: 22, texte: m => `Chargement des ${m[1]} mods…` },
+    // Fabric compte aussi les morceaux internes (les modules de Fabric API…) : on affiche le nombre de mods du profil
+    { re: /Loading (\d+) mods/, pct: 22, texte: () => `Chargement de tes ${nombreModsLances} mods…` },
     { re: /Setting user: /, pct: 62, texte: () => 'Préparation de Minecraft…' },
     { re: /Backend library: LWJGL/, pct: 85, texte: () => 'Ouverture de la fenêtre…' }
 ]
@@ -536,64 +538,34 @@ async function dlAsync(login = true) {
     toggleLaunchArea(true)
     setLaunchPercentage(0, 100)
 
-    const fullRepairModule = new FullRepair(
-        ConfigManager.getCommonDirectory(),
-        ConfigManager.getInstanceDirectory(),
-        ConfigManager.getLauncherDirectory(),
-        ConfigManager.getSelectedServer(),
-        DistroAPI.isDevMode()
-    )
-
-    fullRepairModule.spawnReceiver()
-
-    fullRepairModule.childProcess.on('error', (err) => {
-        loggerLaunchSuite.error('Error during launch', err)
-        showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), err.message || Lang.queryJS('landing.dlAsync.errorDuringLaunchText'))
-    })
-    fullRepairModule.childProcess.on('close', (code, _signal) => {
-        if(code !== 0){
-            loggerLaunchSuite.error(`Full Repair Module exited with code ${code}, assuming error.`)
-            showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
-        }
-    })
-
+    // Senra : vérification et téléchargement des seuls fichiers utiles (mods cochés), avec la mémoire des fichiers
+    // déjà vérifiés (senraverif.js) au lieu de la réparation complète d'Helios qui relisait tout à chaque lancement.
     loggerLaunchSuite.info('Validating files.')
     setLaunchDetails(Lang.queryJS('landing.dlAsync.validatingFileIntegrity'))
-    let invalidFileCount = 0
+    let etapeVerif = 'verification'
     try {
-        invalidFileCount = await fullRepairModule.verifyFiles(percent => {
-            setLaunchPercentage(percent)
+        const debut = Date.now()
+        const telecharges = await SenraVerif.verifier(serv, (etape, pourcent) => {
+            if(etape !== etapeVerif){
+                etapeVerif = etape
+                setLaunchDetails(Lang.queryJS('landing.dlAsync.downloadingFiles'))
+            }
+            if(etape === 'telechargement'){
+                setDownloadPercentage(pourcent)
+            } else {
+                setLaunchPercentage(pourcent)
+            }
         })
-        setLaunchPercentage(100)
+        loggerLaunchSuite.info(`Fichiers vérifiés en ${Date.now() - debut} ms, ${telecharges} téléchargé(s).`)
     } catch (err) {
-        loggerLaunchSuite.error('Error during file validation.')
-        showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringFileVerificationTitle'), err.displayable || Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
+        loggerLaunchSuite.error('Error during file validation.', err)
+        const titre = etapeVerif === 'telechargement' ? 'landing.dlAsync.errorDuringFileDownloadTitle' : 'landing.dlAsync.errorDuringFileVerificationTitle'
+        showLaunchFailure(Lang.queryJS(titre), err.displayable || Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
         return
-    }
-
-
-    if(invalidFileCount > 0) {
-        loggerLaunchSuite.info('Downloading files.')
-        setLaunchDetails(Lang.queryJS('landing.dlAsync.downloadingFiles'))
-        setLaunchPercentage(0)
-        try {
-            await fullRepairModule.download(percent => {
-                setDownloadPercentage(percent)
-            })
-            setDownloadPercentage(100)
-        } catch(err) {
-            loggerLaunchSuite.error('Error during file download.')
-            showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringFileDownloadTitle'), err.displayable || Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
-            return
-        }
-    } else {
-        loggerLaunchSuite.info('No invalid files, skipping download.')
     }
 
     // Remove download bar.
     remote.getCurrentWindow().setProgressBar(-1)
-
-    fullRepairModule.destroyReceiver()
 
     // Senra : les mods Modrinth du profil actif.
     try {
@@ -630,6 +602,7 @@ async function dlAsync(login = true) {
         const authUser = ConfigManager.getSelectedAccount()
         loggerLaunchSuite.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
         let pb = new ProcessBuilder(serv, versionData, modLoaderData, authUser, remote.app.getVersion())
+        nombreModsLances = SenraVerif.nombreModsActifs(serv) + SenraProfils.actif(serv.rawServer.id).ajouts.length
         setLaunchDetails(Lang.queryJS('landing.dlAsync.launchingGame'))
 
         // const SERVER_JOINED_REGEX = /\[.+\]: \[CHAT\] [a-zA-Z0-9_]{1,16} joined the game/
