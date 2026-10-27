@@ -1,0 +1,38 @@
+<div id="frameBar">
+    <div id="frameResizableTop" class="frameDragPadder"></div>
+    <div id="frameMain">
+        <%if (process.platform === 'darwin') { %>
+            <div id="frameContentDarwin">
+                <div id="frameButtonDockDarwin">
+                    <button class="frameButtonDarwin fCb" id="frameButtonDarwin_close" tabIndex="-1"></button>
+                    <button class="frameButtonDarwin fMb" id="frameButtonDarwin_minimize" tabIndex="-1"></button>
+                    <button class="frameButtonDarwin fRb" id="frameButtonDarwin_restoredown" tabIndex="-1"></button>
+                </div>
+            </div>
+        <% } %>
+        <div class="marque"><img src="assets/images/senra/logo.png" alt=""><b><%= lang('app.title').replace(' Launcher', '') %></b></div>
+        <div class="haut">
+            <div class="portee"><strong id="senraNomServeur">Senra Naruto RP</strong><span id="senraMetaServeur"></span></div>
+            <span class="etat-serveur"><i class="point" id="senraPointServeur"></i><span id="senraTexteServeur"></span></span>
+            <span class="espace"></span>
+            <button class="compte" id="senraCompte" type="button" aria-label="Changer de compte">
+                <img id="senraTeteCompte" alt="">
+                <div><b id="user_text"></b><small>Compte Microsoft</small></div>
+                <svg viewBox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+        <% if (process.platform !== 'darwin') { %>
+            <div id="frameButtonDockWin" class="fenetre">
+                <button class="frameButton fMb" id="frameButton_minimize" tabIndex="-1" aria-label="Réduire">
+                    <svg viewBox="0 0 12 12"><path d="M1.5 6h9" stroke="currentColor" stroke-width="1.2"/></svg>
+                </button>
+                <button class="frameButton fRb" id="frameButton_restoredown" tabIndex="-1" aria-label="Agrandir">
+                    <svg viewBox="0 0 12 12"><rect x="1.8" y="1.8" width="8.4" height="8.4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+                </button>
+                <button class="frameButton fCb" id="frameButton_close" tabIndex="-1" aria-label="Fermer">
+                    <svg viewBox="0 0 12 12"><path d="m2 2 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.2"/></svg>
+                </button>
+            </div>
+        <% } %>
+    </div>
+</div>

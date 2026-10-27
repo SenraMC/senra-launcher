@@ -1,0 +1,989 @@
+{
+  "version": "1.0.0",
+  "rss": "",
+  "servers": [
+    {
+      "id": "senra",
+      "name": "Senra Naruto RP",
+      "description": "Serveur Minecraft roleplay Naruto.",
+      "icon": "https://senramc.fr/assets/themes/senra-nuit/img/logo.png",
+      "version": "1.0.0",
+      "address": "senra.mine.fun",
+      "minecraftVersion": "1.21.11",
+      "mainServer": true,
+      "senra": {
+        "interdits": {
+          "freecam": "Interdit sur Senra : nuit au RP",
+          "easy-freecam": "Interdit sur Senra : nuit au RP",
+          "freecam_yannis_": "Interdit sur Senra : nuit au RP",
+          "legacyfreecam": "Interdit sur Senra : nuit au RP",
+          "freecammc": "Interdit sur Senra : nuit au RP",
+          "cameratweaks": "Interdit sur Senra : nuit au RP",
+          "fairfreecam": "Interdit sur Senra : nuit au RP",
+          "freecam-by-zergatul": "Interdit sur Senra : nuit au RP",
+          "buildersfreecam": "Interdit sur Senra : nuit au RP",
+          "x-to-xray": "Interdit sur Senra : nuit au RP",
+          "xray-orevision": "Interdit sur Senra : nuit au RP",
+          "x_ray": "Interdit sur Senra : nuit au RP",
+          "block-finder": "Interdit sur Senra : nuit au RP",
+          "diamond-scanner": "Interdit sur Senra : nuit au RP",
+          "orehighlighter-plus": "Interdit sur Senra : nuit au RP",
+          "asteroid": "Interdit sur Senra : nuit au RP",
+          "xaeros-minimap": "Interdit sur Senra : nuit au RP",
+          "xaeros-world-map": "Interdit sur Senra : nuit au RP",
+          "xaeroplus": "Interdit sur Senra : nuit au RP",
+          "journeymap": "Interdit sur Senra : nuit au RP",
+          "voxelmap-updated": "Interdit sur Senra : nuit au RP",
+          "ping-to-map-xaeros": "Interdit sur Senra : nuit au RP",
+          "compass-to-map-xaeros": "Interdit sur Senra : nuit au RP",
+          "xaero-zoomout": "Interdit sur Senra : nuit au RP",
+          "maplink": "Interdit sur Senra : nuit au RP",
+          "client-maps": "Interdit sur Senra : nuit au RP",
+          "axolotlclient-waypoints": "Interdit sur Senra : nuit au RP",
+          "better-waypoints": "Interdit sur Senra : nuit au RP",
+          "customwaypoints": "Interdit sur Senra : nuit au RP",
+          "cubewaypoints": "Interdit sur Senra : nuit au RP",
+          "fullbright": "Interdit sur Senra : nuit au RP",
+          "fullbright-forge": "Interdit sur Senra : nuit au RP",
+          "fullb": "Interdit sur Senra : nuit au RP",
+          "gamma-utils": "Interdit sur Senra : nuit au RP",
+          "fullbright-multiplayer": "Interdit sur Senra : nuit au RP",
+          "sodium-fullbright": "Interdit sur Senra : nuit au RP",
+          "dynamic-fullbright": "Interdit sur Senra : nuit au RP",
+          "resource-gamma-utils": "Interdit sur Senra : nuit au RP",
+          "gamma-mod-fullbright": "Interdit sur Senra : nuit au RP",
+          "customizable-brightness": "Interdit sur Senra : nuit au RP",
+          "cave-vision": "Interdit sur Senra : nuit au RP",
+          "chrissi-nightvision": "Interdit sur Senra : nuit au RP",
+          "player-radar": "Interdit sur Senra : nuit au RP",
+          "urs-player-radar": "Interdit sur Senra : nuit au RP",
+          "threatradar": "Interdit sur Senra : nuit au RP",
+          "sound-radar": "Interdit sur Senra : nuit au RP",
+          "more-outlines": "Interdit sur Senra : nuit au RP",
+          "pvp-helper": "Interdit sur Senra : nuit au RP",
+          "highlightmobs": "Interdit sur Senra : nuit au RP",
+          "targetesp": "Interdit sur Senra : nuit au RP",
+          "player-outlines-not-esp": "Interdit sur Senra : nuit au RP",
+          "auto-clicker": "Interdit sur Senra : nuit au RP",
+          "auto-clicker_": "Interdit sur Senra : nuit au RP",
+          "syncac": "Interdit sur Senra : nuit au RP",
+          "auto-clicker-by-its_sxnu": "Interdit sur Senra : nuit au RP",
+          "auto-clicker-ultra": "Interdit sur Senra : nuit au RP",
+          "duch-auto-clicker": "Interdit sur Senra : nuit au RP",
+          "auto-clicker-g": "Interdit sur Senra : nuit au RP",
+          "autoclicker-by-fantanik": "Interdit sur Senra : nuit au RP",
+          "autoclicker.1.0": "Interdit sur Senra : nuit au RP",
+          "autoclicker": "Interdit sur Senra : nuit au RP",
+          "better-autoclicker": "Interdit sur Senra : nuit au RP",
+          "enthusia-autoclicker": "Interdit sur Senra : nuit au RP",
+          "clever-autoclicker-plus": "Interdit sur Senra : nuit au RP",
+          "inputforge": "Interdit sur Senra : nuit au RP",
+          "vupsclick": "Interdit sur Senra : nuit au RP",
+          "tweakeroo": "Interdit sur Senra : nuit au RP",
+          "minihud": "Interdit sur Senra : nuit au RP",
+          "new-health-bars": "Interdit sur Senra : nuit au RP",
+          "provis-health-bars": "Interdit sur Senra : nuit au RP",
+          "ydms-mobhealthbar": "Interdit sur Senra : nuit au RP",
+          "simple-voice-chat": "Le vocal de Senra est Plasmo Voice"
+        },
+        "motsInterdits": [
+          "free ?cam",
+          "\\bx-? ?ray\\b",
+          "full ?bright",
+          "mini-?map",
+          "world ?map",
+          "radar",
+          "\\besp\\b",
+          "auto ?-?clicker",
+          "kill ?aura",
+          "waypoints?",
+          "night vision",
+          "ore (finder|highlight|scanner)"
+        ]
+      },
+      "autoconnect": true,
+      "javaOptions": {
+        "supported": ">=21",
+        "suggestedMajor": 21,
+        "ram": {
+          "recommended": 6144,
+          "minimum": 2048
+        }
+      },
+      "modules": [
+        {
+          "id": "net.fabricmc:fabric-loader:0.20.1",
+          "name": "Fabric Loader 0.20.1",
+          "type": "Fabric",
+          "artifact": {
+            "size": 1988880,
+            "MD5": "2e3dc8eebfde75fc8078c931090cd46f",
+            "url": "https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.20.1/fabric-loader-0.20.1.jar"
+          },
+          "subModules": [
+            {
+              "id": "1.21.11-fabric-0.20.1",
+              "name": "Fabric (version.json)",
+              "type": "VersionManifest",
+              "artifact": {
+                "size": 2865,
+                "MD5": "d12995895a2066b2c13ad50dd0910814",
+                "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/versions/1.21.11-fabric-0.20.1/1.21.11-fabric-0.20.1.json"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm:9.10.1",
+              "name": "Fabric (asm)",
+              "type": "Library",
+              "artifact": {
+                "size": 126151,
+                "MD5": "9cb72080438acf27f2607002e1444a7b",
+                "url": "https://maven.fabricmc.net/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm-analysis:9.10.1",
+              "name": "Fabric (asm-analysis)",
+              "type": "Library",
+              "artifact": {
+                "size": 35140,
+                "MD5": "6dd9011ec87f65e4b2e14e938c4118e4",
+                "url": "https://maven.fabricmc.net/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm-commons:9.10.1",
+              "name": "Fabric (asm-commons)",
+              "type": "Library",
+              "artifact": {
+                "size": 74840,
+                "MD5": "8eee0b1bdd046baf472eb83dd5e6bb44",
+                "url": "https://maven.fabricmc.net/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm-tree:9.10.1",
+              "name": "Fabric (asm-tree)",
+              "type": "Library",
+              "artifact": {
+                "size": 51958,
+                "MD5": "62541e1dc62331408ef31317555bf4fa",
+                "url": "https://maven.fabricmc.net/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar"
+              }
+            },
+            {
+              "id": "org.ow2.asm:asm-util:9.10.1",
+              "name": "Fabric (asm-util)",
+              "type": "Library",
+              "artifact": {
+                "size": 95628,
+                "MD5": "d0892ecb209867805e7d2418e5dc6c42",
+                "url": "https://maven.fabricmc.net/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar"
+              }
+            },
+            {
+              "id": "net.fabricmc:sponge-mixin:0.17.5+mixin.0.8.7",
+              "name": "Fabric (sponge-mixin)",
+              "type": "Library",
+              "artifact": {
+                "size": 1551593,
+                "MD5": "5fd69fb11801c52d88a854ffe05eb839",
+                "url": "https://maven.fabricmc.net/net/fabricmc/sponge-mixin/0.17.5+mixin.0.8.7/sponge-mixin-0.17.5+mixin.0.8.7.jar"
+              }
+            },
+            {
+              "id": "net.fabricmc:intermediary:1.21.11",
+              "name": "Fabric (intermediary)",
+              "type": "Library",
+              "artifact": {
+                "size": 797685,
+                "MD5": "54a87ea75e373bc39b2d36df201231ea",
+                "url": "https://maven.fabricmc.net/net/fabricmc/intermediary/1.21.11/intermediary-1.21.11.jar"
+              }
+            }
+          ]
+        },
+        {
+          "id": "fr.senramc.mods:fabric-api:0.141.6+1.21.11@jar",
+          "name": "Fabric API",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 2426039,
+            "MD5": "d16a96ba9b0797054a012cfb1f5fd6a8",
+            "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/6qAuTtLR/fabric-api-0.141.6%2B1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "La base commune dont les autres mods ont besoin.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/P7dR8mSH/icon.png",
+            "version": "0.141.6+1.21.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:senra-gravity:1.5.2-port.7+mc1.21.11@jar",
+          "name": "Senra Gravité",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 131124,
+            "MD5": "441b47f782c8f4720c2e155c2feebb8d",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-gravity.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Les changements de gravité du serveur (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [
+              "cloth-config"
+            ],
+            "version": "1.5.2-port.7+mc1.21.11"
+          }
+        },
+        {
+          "id": "fr.senramc.mods:emotecraft:3.2.0-b.build.163+1.21.11-fabric@jar",
+          "name": "Emotecraft",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 898197,
+            "MD5": "b773b615b22b9b1e8e6d839d4629c33f",
+            "url": "https://cdn.modrinth.com/data/pZ2wrerK/versions/Hwqp4xhc/emotecraft-fabric-for-MC1.21.11-3.2.0-b.build.163.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Les emotes du RP : saluer, s'asseoir, signes de mains.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [
+              "player-animation-library"
+            ],
+            "icone": "https://cdn.modrinth.com/data/pZ2wrerK/eed7e2c9851392e5879c7d7cb763f142f124e6d2_96.webp",
+            "version": "3.2.0-b.build.163+1.21.11-fabric",
+            "beta": true
+          }
+        },
+        {
+          "id": "fr.senramc.mods:bendable-cuboids:2.0.1@jar",
+          "name": "Bendable Cuboids",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 49603,
+            "MD5": "c4b1a11f7cd1e3522c4406a16db2599f",
+            "url": "https://cdn.modrinth.com/data/OI3FlFon/versions/p5LKzVqY/BendableCuboidsFabric-2.0.1%2Bmc.1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Plie les bras et les jambes pendant les emotes.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/OI3FlFon/e627fad126a3e67f78c26b54064964e3ca327d79_96.webp",
+            "version": "2.0.1",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:plasmo-voice:fabric-1.21.11-2.2.0-beta.2@jar",
+          "name": "Plasmo Voice",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 12866171,
+            "MD5": "aaecc90fd7d8525d5b0576d657c0a33c",
+            "url": "https://cdn.modrinth.com/data/1bZhdhsH/versions/vb77XXZT/plasmovoice-fabric-1.21.11-2.2.0-beta.2.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Le chat vocal de proximité.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/1bZhdhsH/72c1641d4af92d93546958a2c87e0b5fd1c3f650_96.webp",
+            "version": "fabric-1.21.11-2.2.0-beta.2",
+            "beta": true
+          }
+        },
+        {
+          "id": "fr.senramc.mods:modmenu:17.0.1@jar",
+          "name": "Mod Menu",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 960882,
+            "MD5": "83193b9ef9bcb677f5c7ed57da75b3cf",
+            "url": "https://cdn.modrinth.com/data/mOgUt4GM/versions/cLkYaVuL/modmenu-17.0.1.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "La liste des mods et leurs réglages, depuis le menu du jeu.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [
+              "placeholder-api"
+            ],
+            "icone": "https://cdn.modrinth.com/data/mOgUt4GM/5a20ed1450a0e1e79a1fe04e61bb4e5878bf1d20.png",
+            "version": "17.0.1",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:sodium:mc1.21.11-0.8.15-beta.1-fabric@jar",
+          "name": "Sodium",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 1914874,
+            "MD5": "4a13bf4eae9a4a87dec967217b58f09b",
+            "url": "https://cdn.modrinth.com/data/AANobbMI/versions/RB7CDjTS/sodium-fabric-0.8.15-beta.1%2Bmc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Refait le rendu du jeu : beaucoup plus d'images par seconde.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/AANobbMI/295862f4724dc3f78df3447ad6072b2dcd3ef0c9_96.webp",
+            "version": "mc1.21.11-0.8.15-beta.1-fabric",
+            "beta": true
+          }
+        },
+        {
+          "id": "fr.senramc.mods:sodium-extra:mc1.21.11-0.9.6-beta.1+fabric@jar",
+          "name": "Sodium Extra",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 487575,
+            "MD5": "787b6da8e09eab9eaa7b59a4eae393f8",
+            "url": "https://cdn.modrinth.com/data/PtjYWJkn/versions/yBG8AXdG/sodium-extra-fabric-0.9.6-beta.1%2Bmc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Des réglages vidéo en plus : particules, brouillard, animations.",
+            "parent": "sodium",
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/PtjYWJkn/0df4fb22a11e1dcb5e83cb0aadd275b571aca7a9_96.webp",
+            "version": "mc1.21.11-0.9.6-beta.1+fabric",
+            "beta": true
+          }
+        },
+        {
+          "id": "fr.senramc.mods:reeses-sodium-options:mc1.21.11-2.2.6-beta.1+fabric@jar",
+          "name": "Reese's Sodium Options",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 265217,
+            "MD5": "cc3705b369bd2527631cf34f43cbfcbb",
+            "url": "https://cdn.modrinth.com/data/Bh37bMuy/versions/5NexXh0N/reeses-sodium-options-fabric-2.2.6-beta.1%2Bmc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Un menu des réglages vidéo plus clair.",
+            "parent": "sodium",
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/Bh37bMuy/icon.png",
+            "version": "mc1.21.11-2.2.6-beta.1+fabric",
+            "beta": true
+          }
+        },
+        {
+          "id": "fr.senramc.mods:lithium:mc1.21.11-0.21.4-fabric@jar",
+          "name": "Lithium",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 900462,
+            "MD5": "b4ca44f58755e258a9b1ea5fd7b3644a",
+            "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/Ow7wA0kG/lithium-fabric-0.21.4%2Bmc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Allège la physique et l'intelligence des créatures.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/gvQqBUqZ/bcc8686c13af0143adf4285d741256af824f70b7_96.webp",
+            "version": "mc1.21.11-0.21.4-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:ferrite-core:8.2.0-fabric@jar",
+          "name": "FerriteCore",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 80138,
+            "MD5": "3b5c6f5fe571ce945303fc37d5f4c15c",
+            "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/Ii0gP3D8/ferritecore-8.2.0-fabric.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Le jeu prend moins de mémoire vive.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/uXXizFIs/222a126f26f8f9ae1eb339f3b767677f18bff31f_96.webp",
+            "version": "8.2.0-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:immediatelyfast:1.14.3+1.21.11-fabric@jar",
+          "name": "ImmediatelyFast",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 302709,
+            "MD5": "ab71dca7ff5846458ff0dfadd4dcb873",
+            "url": "https://cdn.modrinth.com/data/5ZwdcRci/versions/4EwhsTu7/ImmediatelyFast-Fabric-1.14.3%2B1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Affiche plus vite l'interface, le texte et les panneaux.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/5ZwdcRci/e57b6b451425692ac17ad322d5e14bea686a383a_96.webp",
+            "version": "1.14.3+1.21.11-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:entityculling:1.11.3@jar",
+          "name": "Entity Culling",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 1529094,
+            "MD5": "c87d100fcc1d57e120b07242d3b734eb",
+            "url": "https://cdn.modrinth.com/data/NNAgCjsB/versions/CTabrwB1/entityculling-fabric-1.11.3-mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "N'affiche pas ce qui est caché derrière les murs.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/NNAgCjsB/7873452d6cede4daed12da3d7d8c193ab88b4fd6_96.webp",
+            "version": "1.11.3",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:moreculling:1.6.2@jar",
+          "name": "More Culling",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 340975,
+            "MD5": "8be2f9cf05efc60bbee7d41b4e598097",
+            "url": "https://cdn.modrinth.com/data/51shyZVL/versions/wOzykoLV/moreculling-fabric-1.21.11-1.6.2.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Cache encore plus de faces de blocs invisibles.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [
+              "cloth-config"
+            ],
+            "icone": "https://cdn.modrinth.com/data/51shyZVL/c51b07193b56e952269ef50101d12aecba2b4747_96.webp",
+            "version": "1.6.2",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:cull-leaves:4.1.1.1+1.21.11-fabric@jar",
+          "name": "Cull Leaves",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 92537,
+            "MD5": "db7feaae455ba9f28d93ce8c6b392711",
+            "url": "https://cdn.modrinth.com/data/GNxdLCoP/versions/yrL6pwHZ/cullleaves-fabric-4.1.1.1%2B1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Allège les forêts en cachant l'intérieur des feuillages.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [
+              "midnightlib"
+            ],
+            "icone": "https://cdn.modrinth.com/data/GNxdLCoP/icon.png",
+            "version": "4.1.1.1+1.21.11-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:badoptimizations:2.4.1@jar",
+          "name": "BadOptimizations",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 269545,
+            "MD5": "6d595f1312c0774158eefcaa06612286",
+            "url": "https://cdn.modrinth.com/data/g96Z4WVZ/versions/Q3Dusz2j/BadOptimizations-2.4.1-1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Petits gains sur l'éclairage, le ciel et les nuages.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": null,
+            "version": "2.4.1",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:dynamic-fps:3.11.6@jar",
+          "name": "Dynamic FPS",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": true
+          },
+          "artifact": {
+            "size": 219961,
+            "MD5": "1248163a1204b3f5cebabac7a8fda177",
+            "url": "https://cdn.modrinth.com/data/LQ3K71Q1/versions/Fab7e5Th/dynamic-fps-3.11.6%2Bminecraft-1.21.11-fabric.jar"
+          },
+          "senra": {
+            "categorie": "performance",
+            "desc": "Ralentit le jeu quand sa fenêtre est en arrière-plan.",
+            "parent": null,
+            "poids": null,
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/LQ3K71Q1/5056368d0d87c1a9f3efead0cb48ab39a4ea87bf_96.webp",
+            "version": "3.11.6",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:distanthorizons:3.3.3-1.21.11@jar",
+          "name": "Distant Horizons",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 28300897,
+            "MD5": "48413d460daa1a2fb3b6e70c7aa1c616",
+            "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/oNqCUHFk/DistantHorizons-3.3.3-1.21.11-fabric-neoforge.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Le paysage visible très loin, au-delà de la distance d'affichage.",
+            "parent": null,
+            "poids": "lourd",
+            "memoire": 2,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/uCdwusMi/e716cda9bb568b5373ff76e363fb4c6d7278fba6_96.webp",
+            "version": "3.3.3-1.21.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:presence-footsteps:1.12.4+1.21.11@jar",
+          "name": "Presence Footsteps",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 5757598,
+            "MD5": "371199f4d69f279aa0bb017b78987351",
+            "url": "https://cdn.modrinth.com/data/rcTfTZr3/versions/xjmToylJ/PresenceFootsteps-1.12.4%2B1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Des bruits de pas selon le sol et l'armure.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/rcTfTZr3/c08dc581f0bf3b729f86e962fa800463af86e9a2_96.webp",
+            "version": "1.12.4+1.21.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:sound-physics-remastered:fabric-1.21.11-1.5.2@jar",
+          "name": "Sound Physics Remastered",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 204180,
+            "MD5": "de16d12158d57914f34ba306a955f061",
+            "url": "https://cdn.modrinth.com/data/qyVF9oeo/versions/61lf1wKt/sound-physics-remastered-fabric-1.21.11-1.5.2.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Écho et sons étouffés selon les lieux.",
+            "parent": null,
+            "poids": "moyen",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/qyVF9oeo/798fbfae58ec95ad51f3e1d522b43227306c326c.png",
+            "version": "fabric-1.21.11-1.5.2",
+            "beta": true
+          }
+        },
+        {
+          "id": "fr.senramc.mods:ambientsounds:6.3.5@jar",
+          "name": "AmbientSounds",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 84821614,
+            "MD5": "74e1d8065ebe800761812329cf1398ef",
+            "url": "https://cdn.modrinth.com/data/fM515JnW/versions/JZUqW70J/AmbientSounds_FABRIC_v6.3.5_mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Ambiances sonores : vent, forêt, grottes, nuit.",
+            "parent": null,
+            "poids": "lourd",
+            "memoire": 1,
+            "libs": [
+              "creativecore"
+            ],
+            "icone": "https://cdn.modrinth.com/data/fM515JnW/9a8eca9c055ec1dd753a7209210fcb22a2d40ff7_96.webp",
+            "version": "6.3.5",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:3dskinlayers:1.11.4@jar",
+          "name": "3D Skin Layers",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 1914056,
+            "MD5": "70ff1f89e2c4d15b36bf90f6c777eb4f",
+            "url": "https://cdn.modrinth.com/data/zV5r3pPn/versions/DsBJ7HB2/skinlayers3d-fabric-1.11.4-mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Du relief sur la seconde couche des skins.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/zV5r3pPn/ff7010d4ec0275609866c8b0f603b25e25949c08_96.webp",
+            "version": "1.11.4",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:wavey-capes:1.11.3@jar",
+          "name": "Wavey Capes",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 1788406,
+            "MD5": "5cfbef753adb98bfb1877d3293e2cf02",
+            "url": "https://cdn.modrinth.com/data/kYuIpRLv/versions/NR0hCf95/waveycapes-fabric-1.11.3-mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Les capes flottent au vent.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/kYuIpRLv/a51c297bdaf9685a23cc9994372fa8d45852b98b_96.webp",
+            "version": "1.11.3",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:not-enough-animations:1.12.6@jar",
+          "name": "Not Enough Animations",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 1883253,
+            "MD5": "dc112e12027ba4c9575ccb2397011822",
+            "url": "https://cdn.modrinth.com/data/MPCX6s5C/versions/rs2DhiV9/notenoughanimations-fabric-1.12.6-mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Plus d'animations vues de loin : manger, grimper, lire une carte.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/MPCX6s5C/b97fd5f7a893165052408b747286d6eb38d57abb_96.webp",
+            "version": "1.12.6",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:first-person-model:2.7.3@jar",
+          "name": "First-person Model",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 1546918,
+            "MD5": "4c135a57fcd3683ee8d30f413717fd21",
+            "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/kzbLEdoJ/firstperson-fabric-2.7.3-mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Voir son corps en regardant vers le bas.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/H5XMjpHi/1f3b44a945f8f0f1b5afc4ff46e4f8a8bda86e95_96.webp",
+            "version": "2.7.3",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:iris:1.10.8+1.21.11-fabric@jar",
+          "name": "Iris Shaders",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 2807718,
+            "MD5": "ecb9537a4d3ad512c602b36e32399baa",
+            "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/ka9PDlsN/iris-fabric-1.10.8%2Bmc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "deconseille",
+            "desc": "Ombres et reflets réalistes, avec des shaders.",
+            "parent": "sodium",
+            "poids": "lourd",
+            "memoire": 1,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/YL57xq9U/18d0e7f076d3d6ed5bedd472b853909aac5da202_96.webp",
+            "version": "1.10.8+1.21.11-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:creativecore:2.14.11@jar",
+          "name": "CreativeCore",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 1392373,
+            "MD5": "371a86b3ab457ab58f03b80492d36d13",
+            "url": "https://cdn.modrinth.com/data/OsZiaDHq/versions/jyLHWJlj/CreativeCore_FABRIC_v2.14.11_mc1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "ambientsounds"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/OsZiaDHq/4953ecd3c0c8b185b2a56d64cdb104b03f3e5038_96.webp",
+            "version": "2.14.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:midnightlib:1.10.0+1.21.11-fabric@jar",
+          "name": "MidnightLib",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 64891,
+            "MD5": "6fe0cbff9d60dc52f6abbaa4cbbfaac7",
+            "url": "https://cdn.modrinth.com/data/codAaoxh/versions/kKsXUOXh/midnightlib-fabric-1.10.0%2B1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "cull-leaves"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/codAaoxh/76ce92742fea39dadbf9a68a389b4690f10ebd52_96.webp",
+            "version": "1.10.0+1.21.11-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:placeholder-api:2.8.2+1.21.10@jar",
+          "name": "Text Placeholder API",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 268662,
+            "MD5": "392f27ec00dd71b8b4a9819f9449e856",
+            "url": "https://cdn.modrinth.com/data/eXts2L7r/versions/qxjzQ9xY/placeholder-api-2.8.2%2B1.21.10.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "modmenu"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/eXts2L7r/e9c9990896e6422bffc5f73d2c41b8f077348f83.png",
+            "version": "2.8.2+1.21.10",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:player-animation-library:1.1.11@jar",
+          "name": "Player Animation Library",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 1151293,
+            "MD5": "7f32679fd9c290f9d98def13054dc817",
+            "url": "https://cdn.modrinth.com/data/ha1mEyJS/versions/LUMEg2C0/PlayerAnimationLibFabric-1.1.11%2Bmc.1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "emotecraft"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/ha1mEyJS/c1fae260a9377cfb05692f01135b6ca2b7b682c7_96.webp",
+            "version": "1.1.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:cloth-config:21.11.153+fabric@jar",
+          "name": "Cloth Config API",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 1148427,
+            "MD5": "9de770889c2b19445f57f881e4f7d6f8",
+            "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/xuX40TN5/cloth-config-21.11.153-fabric.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "senra-gravity",
+              "moreculling"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/9s6osm5g/ed8a2316cbb6f4fc5f510e8e13a59a85cbbbff4d_96.webp",
+            "version": "21.11.153+fabric",
+            "beta": false
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# Textes propres à Senra (chargés en dernier : ils écrasent en_US et fr_FR)
+
+[ejs.app]
+title = "Senra Launcher"
+
+[ejs.landing]
+mediaGitHubURL = "https://senramc.fr/"
+mediaXURL = "#"
+mediaInstagramURL = "#"
+mediaYouTubeURL = "#"
+mediaDiscordURL = "https://discord.gg/R83qudYmGT"
+
+[ejs.settings]
+sourceGithubLink = "https://senramc.fr/"
+supportLink = "https://discord.gg/R83qudYmGT"
+
+[ejs.welcome]
+welcomeHeader = "Bienvenue sur Senra"
+welcomeDescription = "Le launcher installe Minecraft 1.21.11, Fabric et tous les mods du serveur, puis te connecte directement à Senra Naruto RP. Les mods de performance sont déjà réglés ; tu choisiras les mods de confort selon ton PC."
+welcomeDescCTA = "Connecte ton compte Microsoft pour commencer."
+continueButton = "Continuer"
+
+[js.senra]
+pretAJouer = "Prêt à jouer"
+
+[ejs.senra]
+discordURL = "https://discord.gg/R83qudYmGT"
+siteURL = "https://senramc.fr/"

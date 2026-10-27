@@ -1,0 +1,45 @@
+name: Construire le launcher
+
+# Les installeurs (Windows, macOS, Linux) sont construits quand on pousse une étiquette de version :
+#   git tag v1.0.1 ; git push origin v1.0.1
+# et publiés dans les Releases GitHub, d'où le launcher installé se met à jour tout seul.
+# Modifier distribution/ (les mods) ne relance pas de construction : le launcher relit distribution.json à chaque démarrage.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: write
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v6
+
+      - name: Installer Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Installer Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
+
+      - name: Installer les dépendances
+        run: npm ci
+        shell: bash
+
+      - name: Construire et publier
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run dist
+        shell: bash

@@ -1,0 +1,56 @@
+appId: 'fr.senramc.launcher'
+productName: 'Senra Launcher'
+artifactName: 'Senra-Launcher-setup-${version}.${ext}'
+
+copyright: 'Copyright © 2026 Senra · basé sur HeliosLauncher (Daniel Scalzi, licence MIT)'
+
+asar: true
+compression: 'maximum'
+
+files:
+  - '!{dist,distribution,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs,PUBLIER.md,essayer.cmd}'
+
+extraResources:
+  - 'libraries'
+
+# Mises à jour automatiques : les installeurs sont publiés dans les Releases GitHub.
+publish:
+  provider: 'github'
+  owner: 'SenraMC'
+  repo: 'senra-launcher'
+
+# Windows
+win:
+  target:
+    - target: 'nsis'
+      arch: 'x64'
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  shortcutName: 'Senra Launcher'
+
+# macOS
+mac:
+  target:
+    - target: 'dmg'
+      arch:
+        - 'x64'
+        - 'arm64'
+  artifactName: 'Senra-Launcher-setup-${version}-${arch}.${ext}'
+  category: 'public.app-category.games'
+
+# Linux
+linux:
+  target: 'AppImage'
+  maintainer: 'Senra'
+  vendor: 'Senra'
+  synopsis: 'Launcher du serveur Senra Naruto RP'
+  description: 'Installe Minecraft 1.21.11, Fabric et les mods de Senra, puis connecte au serveur Senra Naruto RP.'
+  category: 'Game'
+
+directories:
+  buildResources: 'build'
+  output: 'dist'

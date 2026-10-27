@@ -1,0 +1,24 @@
+<div id="landingContainer" class="vue-senra" style="display: none;">
+    <article class="panneau lancement" id="senraLancement">
+        <div class="couverture"><img src="assets/images/senra/couverture_senra.webp" alt="Deux shinobis s'affrontent au-dessus des nuages, sous le nom Senra"></div>
+        <div class="piste" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100"><div class="rempli" id="launch_progress"></div></div>
+        <div class="bande">
+            <div class="texte">
+                <h1 id="launch_details_text">Prêt à jouer</h1>
+                <p id="senraSousTitre" aria-live="polite"></p>
+            </div>
+            <div class="joueurs" id="server_status_wrapper">
+                <p><b class="num" id="player_count">—</b><span class="num" id="senraPlaces"></span></p>
+                <p class="meta" id="landingPlayerLabel">connexion au serveur…</p>
+            </div>
+            <div class="profil-lancement">
+                <button class="choix-profil" id="senraChoixProfil" type="button" aria-haspopup="menu" aria-expanded="false">
+                    <span><small>Profil</small><b id="senraNomProfil">De base</b></span><svg><use href="#i-bas"/></svg>
+                </button>
+                <div class="menu-profils" id="senraMenuProfils" role="menu" hidden></div>
+            </div>
+            <button class="jouer" id="launch_button" type="button" disabled><svg><use href="#i-jouer"/></svg><span id="senraTexteJouer">Jouer</span></button>
+        </div>
+    </article>
+    <script src="./assets/js/scripts/landing.js"></script>
+</div>
