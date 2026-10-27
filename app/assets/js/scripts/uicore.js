@@ -37,10 +37,15 @@ webFrame.setVisualZoomLevelLimits(1, 1)
 
 // Initialize auto updates in production environments.
 let updateCheckListener
-// Senra : la vérification faite à l'ouverture du launcher installe la nouvelle version tout de suite
-// (Windows et Linux ; macOS ne le permet pas sans signature Apple). Celles trouvées plus tard s'installent à la fermeture.
+// Senra : à l'ouverture, le launcher cherche une nouvelle version. S'il y en a une, le joueur doit l'accepter
+// (téléchargement, installation sans fenêtre, le launcher se rouvre) ou le launcher se ferme.
+// macOS : pas d'installation automatique sans signature Apple, « Mettre à jour » ouvre le .dmg à télécharger.
+// Une version publiée pendant que le launcher est ouvert : entrée « Mise à jour » dans la barre latérale.
+const ATTENTE_VERIFICATION = 15000
 let premiereVerification = false
-let majAuto = false
+let delaiVerification = null
+let majEnCours = false
+let majProposee = null
 if(!isDev){
     ipcRenderer.on('autoUpdateNotification', (event, arg, info) => {
         switch(arg){
@@ -50,55 +55,59 @@ if(!isDev){
                 break
             case 'update-available':
                 loggerAutoUpdater.info('New update available', info.version)
-
                 if(process.platform === 'darwin'){
                     info.darwindownload = `https://github.com/SenraMC/senra-launcher/releases/download/v${info.version}/Senra-Launcher-setup-${info.version}${process.arch === 'arm64' ? '-arm64' : '-x64'}.dmg`
-                    showUpdateUI(info)
-                } else if(premiereVerification){
-                    majAuto = true
-                    afficherMajAuto(info.version)
                 }
-                premiereVerification = false
-
+                majProposee = info
                 populateSettingsUpdateInformation(info)
+                if(process.platform !== 'darwin'){
+                    settingsUpdateButtonStatus('Mettre à jour maintenant', false, accepterMaj)
+                }
+                if(premiereVerification){
+                    premiereVerification = false
+                    clearTimeout(delaiVerification)
+                    proposerMaj(info)
+                } else {
+                    showUpdateUI(info)
+                }
                 break
             case 'download-progress':
-                if(majAuto){
-                    afficherMajAuto(null, Math.round(info.percent))
+                if(majEnCours){
+                    const pourcent = Math.round(info.percent)
+                    ecranMaj({ titre: 'Mise à jour du launcher', etat: `Téléchargement… ${pourcent} %`, pourcent })
                 }
                 break
             case 'update-downloaded':
                 loggerAutoUpdater.info('Update ' + info.version + ' ready to be installed.')
-                if(majAuto){
-                    afficherMajAuto(null, 100, 'Installation… le launcher va se rouvrir.')
+                if(majEnCours){
+                    ecranMaj({ titre: 'Mise à jour du launcher', etat: 'Installation… le launcher va se rouvrir.', pourcent: 100 })
                     setTimeout(() => ipcRenderer.send('autoUpdateAction', 'installUpdateNow'), 800)
-                    break
                 }
-                settingsUpdateButtonStatus(Lang.queryJS('uicore.autoUpdate.installNowButton'), false, () => {
-                    if(!isDev){
-                        ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
-                    }
-                })
-                showUpdateUI(info)
                 break
             case 'update-not-available':
                 loggerAutoUpdater.info('No new update found.')
-                premiereVerification = false
+                finVerification()
                 settingsUpdateButtonStatus(Lang.queryJS('uicore.autoUpdate.checkForUpdatesButton'))
                 break
             case 'ready':
                 premiereVerification = true
+                ecranMaj({ titre: 'Recherche de mise à jour…', etat: 'Un instant.' })
+                // sans réponse (pas de réseau, GitHub injoignable), on ouvre le launcher normalement
+                delaiVerification = setTimeout(finVerification, ATTENTE_VERIFICATION)
                 updateCheckListener = setInterval(() => {
                     ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
                 }, 1800000)
                 ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
                 break
             case 'realerror':
-                // pas de réseau ou téléchargement raté : on ouvre le launcher normalement
-                premiereVerification = false
-                if(majAuto){
-                    majAuto = false
-                    document.getElementById('senraMajAuto')?.remove()
+                finVerification()
+                if(majEnCours){
+                    majEnCours = false
+                    ecranMaj({
+                        titre: 'Mise à jour impossible',
+                        etat: 'Le téléchargement a échoué. Vérifie ta connexion.',
+                        boutons: [{ texte: 'Réessayer', principal: true, action: accepterMaj }, { texte: 'Quitter', action: quitterLauncher }]
+                    })
                 }
                 if(info != null && info.code != null){
                     if(info.code === 'ERR_UPDATER_INVALID_RELEASE_FEED'){
@@ -131,28 +140,79 @@ function changeAllowPrerelease(val){
 }
 
 /**
- * Écran « Mise à jour du launcher » par-dessus tout le launcher pendant la mise à jour automatique.
+ * Écran de mise à jour par-dessus tout le launcher (recherche, proposition, téléchargement).
  *
- * @param {string|null} version La nouvelle version (au premier affichage).
- * @param {number} [pourcent] Avancement du téléchargement.
- * @param {string} [texte] Texte à la place du pourcentage.
+ * @param {Object} contenu titre, version, etat, pourcent (barre si défini), boutons [{ texte, principal, action }].
  */
-function afficherMajAuto(version, pourcent = 0, texte = null){
+function ecranMaj({ titre, version = null, etat = '', pourcent = null, boutons = [] }){
     let ecran = document.getElementById('senraMajAuto')
     if(ecran == null){
         ecran = document.createElement('div')
         ecran.id = 'senraMajAuto'
         ecran.setAttribute('role', 'alertdialog')
         ecran.setAttribute('aria-live', 'polite')
-        ecran.innerHTML = '<div class="carte"><img src="assets/images/senra/logo.png" alt=""><h2>Mise à jour du launcher</h2>'
-            + '<p class="version"></p><div class="piste"><div class="rempli"></div></div><p class="etat"></p></div>'
+        ecran.innerHTML = '<div class="carte"><img src="assets/images/senra/logo.png" alt=""><h2 class="majTitre"></h2>'
+            + '<p class="version"></p><div class="piste"><div class="rempli"></div></div><p class="etat"></p><div class="boutons"></div></div>'
         document.body.appendChild(ecran)
     }
+    ecran.querySelector('.majTitre').textContent = titre
     if(version != null){
-        ecran.querySelector('.version').textContent = `Nouvelle version ${version}`
+        ecran.querySelector('.version').textContent = version
     }
-    ecran.querySelector('.rempli').style.width = `${pourcent}%`
-    ecran.querySelector('.etat').textContent = texte || `Téléchargement… ${pourcent} %`
+    ecran.querySelector('.etat').textContent = etat
+    ecran.querySelector('.piste').hidden = pourcent == null
+    ecran.querySelector('.rempli').style.width = `${pourcent || 0}%`
+    const zone = ecran.querySelector('.boutons')
+    zone.replaceChildren(...boutons.map(b => {
+        const bouton = document.createElement('button')
+        bouton.type = 'button'
+        bouton.className = b.principal ? 'principal' : 'secondaire'
+        bouton.textContent = b.texte
+        bouton.onclick = b.action
+        return bouton
+    }))
+    zone.hidden = boutons.length === 0
+    zone.querySelector('.principal')?.focus()
+}
+
+/** Fin de la recherche faite à l'ouverture : sans mise à jour à proposer, on laisse le launcher s'ouvrir. */
+function finVerification(){
+    if(!premiereVerification){
+        return
+    }
+    premiereVerification = false
+    clearTimeout(delaiVerification)
+    if(!majEnCours){
+        document.getElementById('senraMajAuto')?.remove()
+    }
+}
+
+/** Une nouvelle version est publiée : le joueur l'accepte, ou le launcher se ferme. */
+function proposerMaj(info){
+    ecranMaj({
+        titre: 'Mise à jour disponible',
+        version: `Senra Launcher ${info.version}`,
+        etat: 'Cette mise à jour est nécessaire pour continuer. Elle s\'installe toute seule, puis le launcher se rouvre.',
+        boutons: [{ texte: 'Mettre à jour', principal: true, action: accepterMaj }, { texte: 'Quitter', action: quitterLauncher }]
+    })
+}
+
+function accepterMaj(){
+    if(majProposee == null){
+        return
+    }
+    if(process.platform === 'darwin'){
+        shell.openExternal(majProposee.darwindownload)
+        quitterLauncher()
+        return
+    }
+    majEnCours = true
+    ecranMaj({ titre: 'Mise à jour du launcher', version: `Senra Launcher ${majProposee.version}`, etat: 'Téléchargement… 0 %', pourcent: 0 })
+    ipcRenderer.send('autoUpdateAction', 'downloadUpdate')
+}
+
+function quitterLauncher(){
+    remote.app.quit()
 }
 
 function showUpdateUI(info){

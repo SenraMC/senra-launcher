@@ -444,6 +444,14 @@ input:checked + .toggleSwitchSlider:before { transform: translateX(14px); backgr
 #senraMajAuto .piste { height: 6px; border-radius: 999px; background: var(--raised); overflow: hidden; }
 #senraMajAuto .rempli { height: 100%; width: 0; background: var(--accent); transition: width 200ms linear; }
 #senraMajAuto .etat { margin: 12px 0 0; color: var(--faint); font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
+#senraMajAuto .piste[hidden], #senraMajAuto .boutons[hidden], #senraMajAuto .version:empty, #senraMajAuto .etat:empty { display: none; }
+#senraMajAuto .boutons { display: flex; gap: 10px; justify-content: center; margin-top: 22px; -webkit-app-region: no-drag; }
+#senraMajAuto .boutons button { height: 40px; padding: 0 22px; border-radius: 999px; font: 700 var(--fs-body)/1 var(--font); cursor: pointer; }
+#senraMajAuto .boutons .principal { border: 0; background: var(--primary); color: var(--primary-ink); }
+#senraMajAuto .boutons .principal:hover { background: var(--primary-hover); }
+#senraMajAuto .boutons .secondaire { border: 1px solid var(--contour-fort); background: none; color: var(--text); font-weight: 500; }
+#senraMajAuto .boutons .secondaire:hover { background: var(--raised); }
+#senraMajAuto .boutons button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
 /* ---------- bienvenue, connexion ---------- */
 #welcomeContainer, #loginOptionsContainer, #waitingContainer { display: flex; align-items: center; justify-content: center; }

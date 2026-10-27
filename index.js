@@ -30,9 +30,8 @@ function initAutoUpdater(event, data) {
         autoUpdater.autoInstallOnAppQuit = false
         autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml')
     }
-    if(process.platform === 'darwin'){
-        autoUpdater.autoDownload = false
-    }
+    // Senra : rien n'est téléchargé tant que le joueur n'a pas accepté la mise à jour
+    autoUpdater.autoDownload = false
     autoUpdater.on('update-available', (info) => {
         event.sender.send('autoUpdateNotification', 'update-available', info)
     })
@@ -78,6 +77,12 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             } else {
                 autoUpdater.allowPrerelease = data
             }
+            break
+        case 'downloadUpdate':
+            autoUpdater.downloadUpdate()
+                .catch(err => {
+                    event.sender.send('autoUpdateNotification', 'realerror', err)
+                })
             break
         case 'installUpdateNow':
             // Senra : installation sans fenêtre d'installateur, puis le launcher se rouvre tout seul
