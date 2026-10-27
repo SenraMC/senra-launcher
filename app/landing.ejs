@@ -1,6 +1,12 @@
 <div id="landingContainer" class="vue-senra" style="display: none;">
     <article class="panneau lancement" id="senraLancement">
-        <div class="couverture"><img src="assets/images/senra/couverture_senra.webp" alt="Deux shinobis s'affrontent au-dessus des nuages, sous le nom Senra"></div>
+        <div class="couverture">
+            <img class="visible" data-fond="0" src="assets/images/senra/couverture_senra.webp" alt="Deux shinobis s'affrontent au-dessus des nuages, sous le nom Senra">
+            <img data-fond="1" src="assets/images/senra/fonds/couverture_bleu.webp" alt="">
+            <img data-fond="2" src="assets/images/senra/fonds/couverture_violet.webp" alt="">
+            <img data-fond="3" src="assets/images/senra/fonds/couverture_vert.webp" alt="">
+            <img data-fond="4" src="assets/images/senra/fonds/couverture_neige.webp" alt="">
+        </div>
         <div class="piste" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100"><div class="rempli" id="launch_progress"></div></div>
         <div class="bande">
             <div class="texte">

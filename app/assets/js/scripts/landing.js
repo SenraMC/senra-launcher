@@ -43,6 +43,30 @@ const loggerLanding = LoggerUtil.getLogger('Landing')
 let lancementEnCours = false
 let jeuOuvert = false
 
+// Senra : l'image de l'accueil et le fond de la fenêtre changent ensemble toutes les 6 s, en fondu
+// (orange d'abord, puis bleu, violet, vert, neige). La nouvelle image passe par-dessus, l'ancienne s'efface ensuite.
+const DUREE_FOND = 6000
+const NOMBRE_FONDS = 5
+let fondActuel = 0
+function montrerFond(n){
+    for(const groupe of [document.querySelectorAll('#senraFonds .fond'), document.querySelectorAll('.couverture img')]){
+        const nouveau = Array.from(groupe).find(e => Number(e.dataset.fond) === n)
+        groupe.forEach(e => e.classList.toggle('dessus', e === nouveau))
+        nouveau.classList.add('visible')
+        setTimeout(() => groupe.forEach(e => {
+            if(e !== nouveau){
+                e.classList.remove('visible')
+            }
+        }), 1700)
+    }
+}
+setInterval(() => {
+    if(!document.hidden){
+        fondActuel = (fondActuel + 1) % NOMBRE_FONDS
+        montrerFond(fondActuel)
+    }
+}, DUREE_FOND)
+
 /* Launch Progress Wrapper Functions */
 
 /**

@@ -43,9 +43,14 @@ body {
 }
 body, button, input, select, textarea { font-family: var(--font); color: var(--text); }
 body *:not(.marque b) { font-family: var(--font) !important; }
+/* fonds déjà floutés et assombris (fond_senra.jpg, outils/gen_fonds_launcher.py) : aucun filtre à recalculer ;
+   ils tournent toutes les 6 s en fondu avec l'image de l'accueil (landing.js) */
+#senraFonds { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+#senraFonds .fond { position: absolute; inset: 0; background: center / cover no-repeat; opacity: 0; transition: opacity 1.6s ease; }
+#senraFonds .fond.visible { opacity: 1; }
 body::before {
-  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: url('../images/senra/fond_senra.jpg') center / cover no-repeat;   /* fond déjà flouté et assombri (outils/gen_polices_icones.py) : aucun filtre à recalculer */
+  content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background: url('../images/senra/fond_senra.jpg') center / cover no-repeat;
   will-change: transform;
 }
 h1, h2, h3, p, dl, dd { margin: 0; }
@@ -152,7 +157,10 @@ body:not([data-vue="landingContainer"]):not([data-vue="settingsContainer"]) #sen
 }
 .lancement { height: 100%; display: flex; flex-direction: column; overflow: hidden; box-sizing: border-box; }
 .couverture { flex: 1; min-height: 180px; position: relative; overflow: hidden; background: var(--raised); }
-.couverture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+.couverture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; opacity: 0; transition: opacity 1.6s ease; }
+.couverture img.visible { opacity: 1; }
+.couverture img.dessus, #senraFonds .fond.dessus { z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .couverture img, #senraFonds .fond { transition: none; } }
 .lancement .piste { height: 4px; background: var(--rule); }
 .lancement .rempli { height: 100%; width: 0; background: var(--accent); transition: width 200ms linear; }
 .lancement:not([data-progres]) .piste { background: transparent; }
