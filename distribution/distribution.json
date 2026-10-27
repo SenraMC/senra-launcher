@@ -101,7 +101,7 @@
           "ore (finder|highlight|scanner)"
         ]
       },
-      "autoconnect": true,
+      "autoconnect": false,
       "javaOptions": {
         "supported": ">=21",
         "suggestedMajor": 21,
