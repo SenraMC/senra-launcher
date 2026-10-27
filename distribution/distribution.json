@@ -860,6 +860,59 @@
           }
         },
         {
+          "id": "fr.senramc.mods:zoomify:2.15.2+1.21.11@jar",
+          "name": "Zoomify",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 873443,
+            "MD5": "60bb5705290ef18a774e75fcf2fadbfc",
+            "url": "https://cdn.modrinth.com/data/w7ThoJFB/versions/gI5KZI8V/zoomify-2.15.2%2B1.21.11.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Le zoom comme sur Feather : maintiens C, règle-le avec la molette.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [
+              "fabric-language-kotlin",
+              "yacl"
+            ],
+            "icone": "https://cdn.modrinth.com/data/w7ThoJFB/e2de67a0bfb9e8aa2347982ab3ec5463f26cca31_96.webp",
+            "version": "2.15.2+1.21.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:toggle-sprint-magiccc:1.7@jar",
+          "name": "Toggle Sprint",
+          "type": "FabricMod",
+          "required": {
+            "value": false,
+            "def": false
+          },
+          "artifact": {
+            "size": 49862,
+            "MD5": "ad60666e372c1d448ce3817e349746c2",
+            "url": "https://cdn.modrinth.com/data/N8Pmw3EX/versions/RVKxXyuS/togglesprint-mc1.21.9-v1.7.jar"
+          },
+          "senra": {
+            "categorie": "confort",
+            "desc": "Une touche pour courir sans arrêt, l'état affiché en haut à gauche.",
+            "parent": null,
+            "poids": "leger",
+            "memoire": 0,
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/N8Pmw3EX/c10be536bf76657a2837b4ef5a4cbfe329a7d3a4_96.webp",
+            "version": "1.7",
+            "beta": false
+          }
+        },
+        {
           "id": "fr.senramc.mods:iris:1.10.8+1.21.11-fabric@jar",
           "name": "Iris Shaders",
           "type": "FabricMod",
@@ -881,6 +934,54 @@
             "libs": [],
             "icone": "https://cdn.modrinth.com/data/YL57xq9U/18d0e7f076d3d6ed5bedd472b853909aac5da202_96.webp",
             "version": "1.10.8+1.21.11-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:yacl:3.8.2+1.21.11-fabric@jar",
+          "name": "YetAnotherConfigLib (YACL)",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 1126948,
+            "MD5": "0de1337147953ff71854bfd4ce874629",
+            "url": "https://cdn.modrinth.com/data/1eAoo2KR/versions/pHWDw3Vc/yet_another_config_lib_v3-3.8.2%2B1.21.11-fabric.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "zoomify"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/1eAoo2KR/08c0cd32515e260f4bb20bbc0696510041523f9a_96.webp",
+            "version": "3.8.2+1.21.11-fabric",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:fabric-language-kotlin:1.14.2+kotlin.2.4.21@jar",
+          "name": "Fabric Language Kotlin",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 8142878,
+            "MD5": "08b201c7d0e80ba7a3d77cca0b2d3d3f",
+            "url": "https://cdn.modrinth.com/data/Ha28R6CL/versions/SKW1BTL3/fabric-language-kotlin-1.14.2%2Bkotlin.2.4.21.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "zoomify"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/Ha28R6CL/72c3d74aeb665e45aea93a945a01474cbce3b7da_96.webp",
+            "version": "1.14.2+kotlin.2.4.21",
             "beta": false
           }
         },
