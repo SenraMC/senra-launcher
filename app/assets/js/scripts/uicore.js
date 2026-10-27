@@ -37,6 +37,10 @@ webFrame.setVisualZoomLevelLimits(1, 1)
 
 // Initialize auto updates in production environments.
 let updateCheckListener
+// Senra : la vérification faite à l'ouverture du launcher installe la nouvelle version tout de suite
+// (Windows et Linux ; macOS ne le permet pas sans signature Apple). Celles trouvées plus tard s'installent à la fermeture.
+let premiereVerification = false
+let majAuto = false
 if(!isDev){
     ipcRenderer.on('autoUpdateNotification', (event, arg, info) => {
         switch(arg){
@@ -46,16 +50,30 @@ if(!isDev){
                 break
             case 'update-available':
                 loggerAutoUpdater.info('New update available', info.version)
-                
+
                 if(process.platform === 'darwin'){
                     info.darwindownload = `https://github.com/SenraMC/senra-launcher/releases/download/v${info.version}/Senra-Launcher-setup-${info.version}${process.arch === 'arm64' ? '-arm64' : '-x64'}.dmg`
                     showUpdateUI(info)
+                } else if(premiereVerification){
+                    majAuto = true
+                    afficherMajAuto(info.version)
                 }
-                
+                premiereVerification = false
+
                 populateSettingsUpdateInformation(info)
+                break
+            case 'download-progress':
+                if(majAuto){
+                    afficherMajAuto(null, Math.round(info.percent))
+                }
                 break
             case 'update-downloaded':
                 loggerAutoUpdater.info('Update ' + info.version + ' ready to be installed.')
+                if(majAuto){
+                    afficherMajAuto(null, 100, 'Installation… le launcher va se rouvrir.')
+                    setTimeout(() => ipcRenderer.send('autoUpdateAction', 'installUpdateNow'), 800)
+                    break
+                }
                 settingsUpdateButtonStatus(Lang.queryJS('uicore.autoUpdate.installNowButton'), false, () => {
                     if(!isDev){
                         ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
@@ -65,15 +83,23 @@ if(!isDev){
                 break
             case 'update-not-available':
                 loggerAutoUpdater.info('No new update found.')
+                premiereVerification = false
                 settingsUpdateButtonStatus(Lang.queryJS('uicore.autoUpdate.checkForUpdatesButton'))
                 break
             case 'ready':
+                premiereVerification = true
                 updateCheckListener = setInterval(() => {
                     ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
                 }, 1800000)
                 ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
                 break
             case 'realerror':
+                // pas de réseau ou téléchargement raté : on ouvre le launcher normalement
+                premiereVerification = false
+                if(majAuto){
+                    majAuto = false
+                    document.getElementById('senraMajAuto')?.remove()
+                }
                 if(info != null && info.code != null){
                     if(info.code === 'ERR_UPDATER_INVALID_RELEASE_FEED'){
                         loggerAutoUpdater.info('No suitable releases found.')
@@ -102,6 +128,31 @@ if(!isDev){
  */
 function changeAllowPrerelease(val){
     ipcRenderer.send('autoUpdateAction', 'allowPrereleaseChange', val)
+}
+
+/**
+ * Écran « Mise à jour du launcher » par-dessus tout le launcher pendant la mise à jour automatique.
+ *
+ * @param {string|null} version La nouvelle version (au premier affichage).
+ * @param {number} [pourcent] Avancement du téléchargement.
+ * @param {string} [texte] Texte à la place du pourcentage.
+ */
+function afficherMajAuto(version, pourcent = 0, texte = null){
+    let ecran = document.getElementById('senraMajAuto')
+    if(ecran == null){
+        ecran = document.createElement('div')
+        ecran.id = 'senraMajAuto'
+        ecran.setAttribute('role', 'alertdialog')
+        ecran.setAttribute('aria-live', 'polite')
+        ecran.innerHTML = '<div class="carte"><img src="assets/images/senra/logo.png" alt=""><h2>Mise à jour du launcher</h2>'
+            + '<p class="version"></p><div class="piste"><div class="rempli"></div></div><p class="etat"></p></div>'
+        document.body.appendChild(ecran)
+    }
+    if(version != null){
+        ecran.querySelector('.version').textContent = `Nouvelle version ${version}`
+    }
+    ecran.querySelector('.rempli').style.width = `${pourcent}%`
+    ecran.querySelector('.etat').textContent = texte || `Téléchargement… ${pourcent} %`
 }
 
 function showUpdateUI(info){

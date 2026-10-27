@@ -429,6 +429,22 @@ input:checked + .toggleSwitchSlider:before { transform: translateX(14px); backgr
 #loadSpinnerImage.rotating { animation: senraTourne 1s linear infinite; }
 @keyframes senraTourne { to { transform: rotate(360deg); } }
 
+/* ---------- mise à jour automatique du launcher ---------- */
+#senraMajAuto {
+  position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center;
+  background: rgba(7, 6, 6, 0.78); -webkit-app-region: drag;
+}
+#senraMajAuto .carte {
+  width: 360px; box-sizing: border-box; padding: 28px; text-align: center;
+  background: var(--verre-fort); border: 1px solid var(--contour-fort); border-radius: var(--radius-card); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+#senraMajAuto img { display: block; margin: 0 auto; width: 64px; height: 64px; border-radius: 16px; }
+#senraMajAuto h2 { margin: 16px 0 4px; font: 700 18px/24px var(--font); color: var(--text); }
+#senraMajAuto .version { margin: 0 0 18px; color: var(--muted); }
+#senraMajAuto .piste { height: 6px; border-radius: 999px; background: var(--raised); overflow: hidden; }
+#senraMajAuto .rempli { height: 100%; width: 0; background: var(--accent); transition: width 200ms linear; }
+#senraMajAuto .etat { margin: 12px 0 0; color: var(--faint); font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
+
 /* ---------- bienvenue, connexion ---------- */
 #welcomeContainer, #loginOptionsContainer, #waitingContainer { display: flex; align-items: center; justify-content: center; }
 #welcomeContent, .loginOptionsMainContent {
