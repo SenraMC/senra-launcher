@@ -253,6 +253,28 @@
           }
         },
         {
+          "id": "fr.senramc.mods:senra-hud:1.0.2@jar",
+          "name": "SenraHUD",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 888914,
+            "MD5": "915f415bae3af52317dd98c7b503f5af",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-hud.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Les menus de Senra : écran titre, menu Échap, chargement et connexion (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.0.2"
+          }
+        },
+        {
           "id": "fr.senramc.mods:emotecraft:3.2.0-b.build.163+1.21.11-fabric@jar",
           "name": "Emotecraft",
           "type": "FabricMod",

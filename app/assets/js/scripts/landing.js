@@ -41,6 +41,7 @@ const user_text               = document.getElementById('user_text')
 const loggerLanding = LoggerUtil.getLogger('Landing')
 
 let lancementEnCours = false
+let jeuOuvert = false
 
 /* Launch Progress Wrapper Functions */
 
@@ -59,8 +60,23 @@ function toggleLaunchArea(loading){
         launch_details_text.textContent = Lang.queryJS('senra.pretAJouer') || 'Prêt à jouer'
         majResumeAccueil()
     }
-    document.getElementById('launch_button').disabled = loading || ConfigManager.getSelectedServer() == null
-    document.getElementById('senraChoixProfil').disabled = loading
+    document.getElementById('launch_button').disabled = loading || jeuOuvert || ConfigManager.getSelectedServer() == null
+    document.getElementById('senraChoixProfil').disabled = loading || jeuOuvert
+}
+
+/**
+ * Tant que Minecraft tourne : bouton « En jeu » désactivé (pas de deuxième jeu ni de changement de profil).
+ *
+ * @param {boolean} enJeu True quand la fenêtre du jeu est ouverte.
+ */
+function etatEnJeu(enJeu){
+    jeuOuvert = enJeu
+    document.getElementById('senraTexteJouer').textContent = enJeu ? 'En jeu' : 'Jouer'
+    toggleLaunchArea(false)
+    if(enJeu){
+        launch_details_text.textContent = 'Minecraft est ouvert'
+        senraSousTitre.textContent = 'Ferme le jeu pour relancer ou changer de profil.'
+    }
 }
 
 /**
@@ -99,7 +115,7 @@ function setDownloadPercentage(percent){
  * @param {boolean} val True to enable, false to disable.
  */
 function setLaunchEnabled(val){
-    document.getElementById('launch_button').disabled = !val || lancementEnCours
+    document.getElementById('launch_button').disabled = !val || lancementEnCours || jeuOuvert
 }
 
 // Bind launch button
@@ -163,7 +179,7 @@ async function updateSelectedServer(serv){
         const fabric = serv.modules.find(m => m.rawModule.type === 'Fabric')
         const versionFabric = fabric ? fabric.mavenComponents.version : '—'
         document.getElementById('senraNomServeur').textContent = serv.rawServer.name
-        document.getElementById('senraMetaServeur').textContent = `${serv.rawServer.address.split(':')[0]} · Minecraft ${serv.rawServer.minecraftVersion} · Fabric ${versionFabric}`
+        document.getElementById('senraMetaServeur').textContent = `Minecraft ${serv.rawServer.minecraftVersion} · Fabric ${versionFabric}`
     }
     if(getCurrentView() === VIEWS.settings){
         animateSettingsTabRefresh()
@@ -210,7 +226,7 @@ async function majResumeAccueil(){
     SenraProfils.enregistrer(id)
     const profil = SenraProfils.actif(id)
     document.getElementById('senraNomProfil').textContent = profil.nom
-    if(!lancementEnCours){
+    if(!lancementEnCours && !jeuOuvert){
         senraSousTitre.innerHTML = `Pack ${d.serv.rawServer.version} · <b>${compterMods(d.mods, profil)} mods</b> dans ce profil`
     }
     rendreMenuProfils(d)
@@ -452,8 +468,16 @@ let hasRPC = false
 // Joined server regex
 // Change this if your server uses something different.
 const GAME_JOINED_REGEX = /\[.+\]: Sound engine started/
-const GAME_LAUNCH_REGEX = /^\[.+\]: (?:MinecraftForge .+ Initialized|ModLauncher .+ starting: .+|Loading Minecraft .+ with Fabric Loader .+)$/
-const MIN_LINGER = 5000
+// Senra : étapes du démarrage de Minecraft lues dans son journal, jusqu'à la fenêtre du jeu (signal de SenraHUD)
+const ETAPES_DEMARRAGE = [
+    { re: /Loading Minecraft .+ with Fabric Loader/, pct: 10, texte: () => 'Chargement de Fabric…' },
+    { re: /Loading (\d+) mods/, pct: 22, texte: m => `Chargement des ${m[1]} mods…` },
+    { re: /Setting user: /, pct: 62, texte: () => 'Préparation de Minecraft…' },
+    { re: /Backend library: LWJGL/, pct: 85, texte: () => 'Ouverture de la fenêtre…' }
+]
+const FENETRE_PRETE_REGEX = /\[SenraHUD\] FENETRE_PRETE/
+// sans le signal (SenraHUD absent ou en panne), on considère le jeu ouvert au bout de 3 minutes
+const ATTENTE_FENETRE_MAX = 180000
 
 async function dlAsync(login = true) {
 
@@ -550,9 +574,12 @@ async function dlAsync(login = true) {
     // Senra : les mods Modrinth du profil actif.
     try {
         SenraProfils.enregistrer(serv.rawServer.id)
-        setLaunchDetails('Mods ajoutés depuis Modrinth')
-        setLaunchPercentage(0)
+        if(SenraProfils.actif(serv.rawServer.id).ajouts.length > 0){
+            setLaunchDetails('Mods ajoutés depuis Modrinth')
+            setLaunchPercentage(0)
+        }
         const n = await SenraProfils.telecharger(serv.rawServer.id, pct => setDownloadPercentage(pct), serv.rawServer.senra)
+        setLaunchPercentage(100)
         loggerLaunchSuite.info(`${n} mod(s) Modrinth téléchargé(s).`)
         remote.getCurrentWindow().setProgressBar(-1)
     } catch(err) {
@@ -584,8 +611,13 @@ async function dlAsync(login = true) {
         // const SERVER_JOINED_REGEX = /\[.+\]: \[CHAT\] [a-zA-Z0-9_]{1,16} joined the game/
         const SERVER_JOINED_REGEX = new RegExp(`\\[.+\\]: \\[CHAT\\] ${authUser.displayName} joined the game`)
 
+        let jeuFerme = false
         const onLoadComplete = () => {
-            toggleLaunchArea(false)
+            if(jeuFerme || proc == null){
+                return
+            }
+            remote.getCurrentWindow().setProgressBar(-1)
+            etatEnJeu(true)
             if(hasRPC){
                 DiscordWrapper.updateDetails(Lang.queryJS('landing.discord.loading'))
                 proc.stdout.on('data', gameStateChange)
@@ -593,19 +625,48 @@ async function dlAsync(login = true) {
             proc.stdout.removeListener('data', tempListener)
             proc.stderr.removeListener('data', gameErrorListener)
         }
-        const start = Date.now()
 
-        // Attach a temporary listener to the client output.
-        // Will wait for a certain bit of text meaning that
-        // the client application has started, and we can hide
-        // the progress bar stuff.
+        // Senra : la barre avance avec les étapes du démarrage (et doucement entre deux étapes),
+        // jusqu'à ce que SenraHUD signale que la fenêtre du jeu est affichée.
+        let progression = 0
+        let etape = -1
+        let fenetreOuverte = false
+        let reste = ''
+        const plafond = () => (etape + 1 < ETAPES_DEMARRAGE.length ? ETAPES_DEMARRAGE[etape + 1].pct : 98) - 2
+        const avance = setInterval(() => {
+            progression += (plafond() - progression) * 0.03
+            setDownloadPercentage(Math.round(progression))
+        }, 100)
+        const quandFenetreOuverte = () => {
+            if(fenetreOuverte){
+                return
+            }
+            fenetreOuverte = true
+            clearInterval(avance)
+            clearTimeout(secours)
+            setLaunchDetails('Minecraft est ouvert')
+            setDownloadPercentage(100)
+            setTimeout(onLoadComplete, 1200)
+        }
+        const secours = setTimeout(quandFenetreOuverte, ATTENTE_FENETRE_MAX)
+
         const tempListener = function(data){
-            if(GAME_LAUNCH_REGEX.test(data.trim())){
-                const diff = Date.now()-start
-                if(diff < MIN_LINGER) {
-                    setTimeout(onLoadComplete, MIN_LINGER-diff)
-                } else {
-                    onLoadComplete()
+            const lignes = (reste + data.toString()).split(/\r?\n/)
+            reste = lignes.pop()
+            for(const ligne of lignes){
+                if(FENETRE_PRETE_REGEX.test(ligne)){
+                    quandFenetreOuverte()
+                    return
+                }
+                for(let i = etape + 1; i < ETAPES_DEMARRAGE.length; i++){
+                    const m = ETAPES_DEMARRAGE[i].re.exec(ligne)
+                    if(m){
+                        etape = i
+                        progression = Math.max(progression, ETAPES_DEMARRAGE[i].pct)
+                        setLaunchDetails(ETAPES_DEMARRAGE[i].texte(m))
+                        setDownloadPercentage(Math.round(progression))
+                        break
+                    }
                 }
             }
         }
@@ -636,7 +697,17 @@ async function dlAsync(login = true) {
             proc.stdout.on('data', tempListener)
             proc.stderr.on('data', gameErrorListener)
 
-            setLaunchDetails(Lang.queryJS('landing.dlAsync.doneEnjoyServer'))
+            setLaunchDetails('Démarrage de Java…')
+            setDownloadPercentage(0)
+
+            // jeu fermé (ou planté au démarrage) : le bouton Jouer revient
+            proc.on('close', () => {
+                jeuFerme = true
+                clearInterval(avance)
+                clearTimeout(secours)
+                remote.getCurrentWindow().setProgressBar(-1)
+                etatEnJeu(false)
+            })
 
             // Init Discord Hook
             if(distro.rawDistribution.discord != null && serv.rawServer.discord != null){
@@ -652,6 +723,8 @@ async function dlAsync(login = true) {
 
         } catch(err) {
 
+            clearInterval(avance)
+            clearTimeout(secours)
             loggerLaunchSuite.error('Error during launch', err)
             showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), Lang.queryJS('landing.dlAsync.checkConsoleForDetails'))
 
