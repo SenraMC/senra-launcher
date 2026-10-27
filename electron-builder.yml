@@ -8,18 +8,16 @@ asar: true
 compression: 'maximum'
 
 files:
-  - '!{dist,distribution,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs,PUBLIER.md,essayer.cmd}'
+  - '!{dist,distribution,.gitignore,.gitattributes,README.md}'
 
 extraResources:
   - 'libraries'
 
-# Mises à jour automatiques : les installeurs sont publiés dans les Releases GitHub.
 publish:
   provider: 'github'
   owner: 'SenraMC'
   repo: 'senra-launcher'
 
-# Windows
 win:
   target:
     - target: 'nsis'
@@ -32,7 +30,6 @@ nsis:
   allowToChangeInstallationDirectory: true
   shortcutName: 'Senra Launcher'
 
-# macOS
 mac:
   target:
     - target: 'dmg'
@@ -42,7 +39,6 @@ mac:
   artifactName: 'Senra-Launcher-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
-# Linux
 linux:
   target: 'AppImage'
   maintainer: 'Senra'

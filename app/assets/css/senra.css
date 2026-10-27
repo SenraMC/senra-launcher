@@ -42,6 +42,7 @@ body {
   font: var(--fs-body)/20px var(--font); -webkit-font-smoothing: antialiased;
 }
 body, button, input, select, textarea { font-family: var(--font); color: var(--text); }
+body *:not(.marque b) { font-family: var(--font) !important; }
 body::before {
   content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background: url('../images/senra/fond_senra.jpg') center / cover no-repeat;   /* fond déjà flouté et assombri (outils/gen_polices_icones.py) : aucun filtre à recalculer */
@@ -424,7 +425,7 @@ input:checked + .toggleSwitchSlider:before { transform: translateX(14px); backgr
 #loadingContainer { top: 0; height: 100%; background: var(--ground); }
 #loadSpinnerContainer { position: relative; width: 96px; height: 96px; display: grid; place-items: center; }
 #loadCenterImage { position: static; width: 64px; height: 64px; border-radius: 16px; }
-#loadSpinnerImage { position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--contour); border-top-color: var(--accent); }
+#loadSpinnerImage { position: absolute; top: 0; left: 0; width: 96px; height: 96px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--contour); border-top-color: var(--accent); transform-origin: 50% 50%; }
 #loadSpinnerImage.rotating { animation: senraTourne 1s linear infinite; }
 @keyframes senraTourne { to { transform: rotate(360deg); } }
 

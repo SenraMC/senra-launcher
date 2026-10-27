@@ -1246,43 +1246,29 @@ function calculateRangeSliderMeta(v){
 function bindRangeSlider(){
     Array.from(document.getElementsByClassName('rangeSlider')).map((v) => {
 
-        // Reference the track (thumb).
-        const track = v.getElementsByClassName('rangeSliderTrack')[0]
-
         // Set the initial slider value.
         const value = v.getAttribute('value')
         const sliderMeta = calculateRangeSliderMeta(v)
 
         updateRangedSlider(v, value, ((value-sliderMeta.min)/sliderMeta.step)*sliderMeta.inc)
 
-        // The magic happens when we click on the track.
-        track.onmousedown = (e) => {
+        // Senra : position calculée sur la barre réellement affichée (getBoundingClientRect),
+        // l'ancien calcul (pageX - offsetLeft) se décalait avec la barre latérale.
+        const suivre = (e) => {
+            const rect = v.getBoundingClientRect()
+            const perc = Math.min(100, Math.max(0, (e.clientX - rect.left) / rect.width * 100))
+            const cran = Math.round(perc / sliderMeta.inc)
+            updateRangedSlider(v, sliderMeta.min + sliderMeta.step * cran, cran * sliderMeta.inc)
+        }
 
-            // Stop moving the track on mouse up.
-            document.onmouseup = (e) => {
+        // Un clic n'importe où sur la barre place le curseur, puis on peut le glisser.
+        v.onmousedown = (e) => {
+            e.preventDefault()
+            suivre(e)
+            document.onmousemove = suivre
+            document.onmouseup = () => {
                 document.onmousemove = null
                 document.onmouseup = null
-            }
-
-            // Move slider according to the mouse position.
-            document.onmousemove = (e) => {
-
-                // Distance from the beginning of the bar in pixels.
-                const diff = e.pageX - v.offsetLeft - track.offsetWidth/2
-                
-                // Don't move the track off the bar.
-                if(diff >= 0 && diff <= v.offsetWidth-track.offsetWidth/2){
-
-                    // Convert the difference to a percentage.
-                    const perc = (diff/v.offsetWidth)*100
-                    // Calculate the percentage of the closest notch.
-                    const notch = Number(perc/sliderMeta.inc).toFixed(0)*sliderMeta.inc
-
-                    // If we're close to that notch, stick to it.
-                    if(Math.abs(perc-notch) < sliderMeta.inc/2){
-                        updateRangedSlider(v, sliderMeta.min+(sliderMeta.step*(notch/sliderMeta.inc)), notch)
-                    }
-                }
             }
         }
     }) 
