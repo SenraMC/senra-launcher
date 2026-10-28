@@ -43,3 +43,16 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # version publique (sans « -beta ») : electron-builder la laisse en brouillon ; une fois les 3 systèmes construits,
+  # on la publie comme dernière version (si un système a échoué, rien n'est publié)
+  publier:
+    needs: release
+    if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-beta')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - run: gh release edit "${{ github.ref_name }}" --repo "${{ github.repository }}" --draft=false --prerelease=false --latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
