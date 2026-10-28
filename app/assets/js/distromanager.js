@@ -15,4 +15,16 @@ const api = new DistributionAPI(
     false
 )
 
+// Senra : GitHub garde le fichier jusqu'à 5 minutes en cache. Un paramètre qui change à chaque demande force la
+// version fraîche : une mise à jour publiée est vue tout de suite par les launchers.
+exports.urlFraiche = () => {
+    const base = exports.REMOTE_DISTRO_URL
+    return `${base}${base.includes('?') ? '&' : '?'}t=${Date.now()}`
+}
+const pullRemoteOrigine = api.pullRemote.bind(api)
+api.pullRemote = function(){
+    api.remoteUrl = exports.urlFraiche()
+    return pullRemoteOrigine()
+}
+
 exports.DistroAPI = api

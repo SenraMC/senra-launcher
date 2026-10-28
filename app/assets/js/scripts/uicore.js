@@ -41,11 +41,17 @@ let updateCheckListener
 // (téléchargement, installation sans fenêtre, le launcher se rouvre) ou le launcher se ferme.
 // macOS : pas d'installation automatique sans signature Apple, « Mettre à jour » ouvre le .dmg à télécharger.
 // Une version publiée pendant que le launcher est ouvert : entrée « Mise à jour » dans la barre latérale.
+// Une version publiée pendant que le launcher est ouvert (vérifié toutes les 5 minutes) : page de mise à jour tout de suite,
+// ou, si le jeu est ouvert, une fenêtre qui prévient et la page dès que le jeu se ferme (senramaj.js).
 const ATTENTE_VERIFICATION = 15000
+const SURVEILLANCE_LAUNCHER = 300000
 let premiereVerification = false
 let delaiVerification = null
 let majEnCours = false
 let majProposee = null
+let majLauncherEnAttente = null
+let majModsEnAttente = null
+let versionSignalee = null
 if(!isDev){
     ipcRenderer.on('autoUpdateNotification', (event, arg, info) => {
         switch(arg){
@@ -67,8 +73,16 @@ if(!isDev){
                     premiereVerification = false
                     clearTimeout(delaiVerification)
                     proposerMaj(info)
-                } else {
+                } else if(versionSignalee !== info.version && !majEnCours){
+                    versionSignalee = info.version
                     showUpdateUI(info)
+                    if(typeof jeuEnCours === 'function' && jeuEnCours()){
+                        majLauncherEnAttente = info
+                        popupMaj('Mise à jour du launcher', `Senra Launcher ${info.version} est disponible. `
+                            + 'Elle s\'installera dès que tu fermeras ton jeu.')
+                    } else {
+                        proposerMaj(info)
+                    }
                 }
                 break
             case 'download-progress':
@@ -96,7 +110,7 @@ if(!isDev){
                 delaiVerification = setTimeout(finVerification, ATTENTE_VERIFICATION)
                 updateCheckListener = setInterval(() => {
                     ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
-                }, 1800000)
+                }, SURVEILLANCE_LAUNCHER)
                 ipcRenderer.send('autoUpdateAction', 'checkForUpdate')
                 break
             case 'realerror':

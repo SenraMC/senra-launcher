@@ -461,6 +461,30 @@ input:checked + .toggleSwitchSlider:before { transform: translateX(14px); backgr
 #senraMajAuto .boutons .secondaire:hover { background: var(--raised); }
 #senraMajAuto .boutons button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
+/* ---------- fenêtre « mise à jour disponible » quand le jeu est ouvert ---------- */
+#senraPopupMaj {
+  position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
+  background: rgba(7, 6, 6, 0.55); animation: senraPopupFond 180ms ease-out both;
+}
+#senraPopupMaj .carte {
+  width: 400px; box-sizing: border-box; padding: 26px 28px; text-align: center;
+  background: var(--verre-fort); border: 1px solid var(--contour-fort); border-radius: var(--radius-card);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); animation: senraPopupCarte 260ms cubic-bezier(.2, 1.3, .4, 1) both;
+}
+#senraPopupMaj img { display: block; margin: 0 auto; width: 52px; height: 52px; border-radius: 14px; }
+#senraPopupMaj h2 { margin: 14px 0 8px; font: 700 18px/24px var(--font); color: var(--text); }
+#senraPopupMaj .texte { margin: 0; color: var(--muted); font-size: var(--fs-body); line-height: 21px; }
+#senraPopupMaj .boutons { display: flex; justify-content: center; margin-top: 20px; }
+#senraPopupMaj .boutons button {
+  height: 40px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--primary); color: var(--primary-ink);
+  font: 700 var(--fs-body)/1 var(--font); cursor: pointer;
+}
+#senraPopupMaj .boutons button:hover { background: var(--primary-hover); }
+#senraPopupMaj .boutons button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+@keyframes senraPopupFond { from { opacity: 0 } to { opacity: 1 } }
+@keyframes senraPopupCarte { from { opacity: 0; transform: translateY(10px) scale(.96) } to { opacity: 1; transform: none } }
+@media (prefers-reduced-motion: reduce) { #senraPopupMaj, #senraPopupMaj .carte { animation: none } }
+
 /* ---------- bienvenue, connexion ---------- */
 #welcomeContainer, #loginOptionsContainer, #waitingContainer { display: flex; align-items: center; justify-content: center; }
 #welcomeContent, .loginOptionsMainContent {
