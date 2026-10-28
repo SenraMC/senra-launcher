@@ -117,10 +117,20 @@ if(!isDev){
                 finVerification()
                 if(majEnCours){
                     majEnCours = false
+                    // l'installation automatique n'est pas toujours possible (ex. Linux quand le launcher a été déplacé
+                    // ou décompressé par un outil d'installation) : on propose aussi de télécharger la version à la main
                     ecranMaj({
                         titre: 'Mise à jour impossible',
-                        etat: 'Le téléchargement a échoué. Vérifie ta connexion.',
-                        boutons: [{ texte: 'Réessayer', principal: true, action: accepterMaj }, { texte: 'Quitter', action: quitterLauncher }]
+                        etat: 'La mise à jour n\'a pas pu s\'installer toute seule. Télécharge la nouvelle version et installe-la, '
+                            + 'ou réessaie si ta connexion a coupé.',
+                        boutons: [
+                            { texte: 'Télécharger', principal: true, action: () => {
+                                shell.openExternal('https://github.com/SenraMC/senra-launcher/releases/latest')
+                                quitterLauncher()
+                            } },
+                            { texte: 'Réessayer', action: accepterMaj },
+                            { texte: 'Quitter', action: quitterLauncher }
+                        ]
                     })
                 }
                 if(info != null && info.code != null){

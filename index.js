@@ -16,6 +16,14 @@ const LangLoader                        = require('./app/assets/js/langloader')
 // Setup Lang
 LangLoader.setupLanguage()
 
+// Senra : jamais d'envoi vers une fenêtre déjà fermée (à la fermeture du launcher, une erreur de mise à jour
+// faisait apparaître « Object has been destroyed »)
+function envoyerMaj(event, ...args) {
+    if(!event.sender.isDestroyed()){
+        event.sender.send('autoUpdateNotification', ...args)
+    }
+}
+
 // Setup auto updater.
 function initAutoUpdater(event, data) {
 
@@ -30,26 +38,16 @@ function initAutoUpdater(event, data) {
         autoUpdater.autoInstallOnAppQuit = false
         autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml')
     }
-    // Senra : rien n'est téléchargé tant que le joueur n'a pas accepté la mise à jour
+    // Senra : rien n'est téléchargé tant que le joueur n'a pas accepté la mise à jour, et rien ne s'installe en quittant
+    // (l'installation se fait quand il clique ; en quittant, une installation impossible, ex. Linux, finissait en erreur)
     autoUpdater.autoDownload = false
-    autoUpdater.on('update-available', (info) => {
-        event.sender.send('autoUpdateNotification', 'update-available', info)
-    })
-    autoUpdater.on('download-progress', (progres) => {
-        event.sender.send('autoUpdateNotification', 'download-progress', { percent: progres.percent })
-    })
-    autoUpdater.on('update-downloaded', (info) => {
-        event.sender.send('autoUpdateNotification', 'update-downloaded', info)
-    })
-    autoUpdater.on('update-not-available', (info) => {
-        event.sender.send('autoUpdateNotification', 'update-not-available', info)
-    })
-    autoUpdater.on('checking-for-update', () => {
-        event.sender.send('autoUpdateNotification', 'checking-for-update')
-    })
-    autoUpdater.on('error', (err) => {
-        event.sender.send('autoUpdateNotification', 'realerror', err)
-    }) 
+    autoUpdater.autoInstallOnAppQuit = false
+    autoUpdater.on('update-available', (info) => envoyerMaj(event, 'update-available', info))
+    autoUpdater.on('download-progress', (progres) => envoyerMaj(event, 'download-progress', { percent: progres.percent }))
+    autoUpdater.on('update-downloaded', (info) => envoyerMaj(event, 'update-downloaded', info))
+    autoUpdater.on('update-not-available', (info) => envoyerMaj(event, 'update-not-available', info))
+    autoUpdater.on('checking-for-update', () => envoyerMaj(event, 'checking-for-update'))
+    autoUpdater.on('error', (err) => envoyerMaj(event, 'realerror', err))
 }
 
 // Open channel to listen for update actions.
@@ -62,9 +60,7 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             break
         case 'checkForUpdate':
             autoUpdater.checkForUpdates()
-                .catch(err => {
-                    event.sender.send('autoUpdateNotification', 'realerror', err)
-                })
+                .catch(err => envoyerMaj(event, 'realerror', err))
             break
         case 'allowPrereleaseChange':
             if(!data){
@@ -80,13 +76,15 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             break
         case 'downloadUpdate':
             autoUpdater.downloadUpdate()
-                .catch(err => {
-                    event.sender.send('autoUpdateNotification', 'realerror', err)
-                })
+                .catch(err => envoyerMaj(event, 'realerror', err))
             break
         case 'installUpdateNow':
             // Senra : installation sans fenêtre d'installateur, puis le launcher se rouvre tout seul
-            autoUpdater.quitAndInstall(true, true)
+            try {
+                autoUpdater.quitAndInstall(true, true)
+            } catch(err) {
+                envoyerMaj(event, 'realerror', err)
+            }
             break
         default:
             console.log('Unknown argument', arg)
