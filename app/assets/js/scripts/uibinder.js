@@ -134,6 +134,7 @@ function showFatalStartupError(){
  * @param {Object} data The distro index object.
  */
 function onDistroRefresh(data){
+    require('./assets/js/senradiscord').configurer(data.rawDistribution.discord)
     updateSelectedServer(data.getServerById(ConfigManager.getSelectedServer()))
     refreshServerStatus()
     syncModConfigurations(data)
@@ -447,6 +448,8 @@ async function surDistributionPrete(res){
     distributionTraitee = true
     if(res) {
         const data = await DistroAPI.getDistribution()
+        // Senra : statut Discord (« Joue à Senra RP ») dès l'ouverture du launcher
+        require('./assets/js/senradiscord').configurer(data.rawDistribution.discord)
         syncModConfigurations(data)
         ensureJavaSettings(data)
         if(document.readyState === 'interactive' || document.readyState === 'complete'){

@@ -28,6 +28,7 @@ const {
 
 // Internal Requirements
 const DiscordWrapper          = require('./assets/js/discordwrapper')
+const SenraDiscord            = require('./assets/js/senradiscord')
 const ProcessBuilder          = require('./assets/js/processbuilder')
 const SenraVerif              = require('./assets/js/senraverif')
 
@@ -604,6 +605,7 @@ async function dlAsync(login = true) {
         let pb = new ProcessBuilder(serv, versionData, modLoaderData, authUser, remote.app.getVersion())
         nombreModsLances = SenraVerif.nombreModsActifs(serv) + SenraProfils.actif(serv.rawServer.id).ajouts.length
         setLaunchDetails(Lang.queryJS('landing.dlAsync.launchingGame'))
+        SenraDiscord.etat('lancement')
 
         // const SERVER_JOINED_REGEX = /\[.+\]: \[CHAT\] [a-zA-Z0-9_]{1,16} joined the game/
         const SERVER_JOINED_REGEX = new RegExp(`\\[.+\\]: \\[CHAT\\] ${authUser.displayName} joined the game`)
@@ -615,10 +617,7 @@ async function dlAsync(login = true) {
             }
             remote.getCurrentWindow().setProgressBar(-1)
             etatEnJeu(true)
-            if(hasRPC){
-                DiscordWrapper.updateDetails(Lang.queryJS('landing.discord.loading'))
-                proc.stdout.on('data', gameStateChange)
-            }
+            SenraDiscord.etat('menus')
             proc.stdout.removeListener('data', tempListener)
             proc.stderr.removeListener('data', gameErrorListener)
         }
@@ -693,6 +692,13 @@ async function dlAsync(login = true) {
             // Bind listeners to stdout.
             proc.stdout.on('data', tempListener)
             proc.stderr.on('data', gameErrorListener)
+            // Senra : statut Discord, d'après les lignes « [SenraHUD] PRESENCE … » du journal (Senra RP, Build, menus…)
+            let resteJournal = ''
+            proc.stdout.on('data', data => {
+                const lignes = (resteJournal + data.toString()).split(/\r?\n/)
+                resteJournal = lignes.pop()
+                lignes.forEach(SenraDiscord.lireJournal)
+            })
 
             setLaunchDetails('Démarrage de Java…')
             setDownloadPercentage(0)
@@ -704,24 +710,15 @@ async function dlAsync(login = true) {
                 clearTimeout(secours)
                 remote.getCurrentWindow().setProgressBar(-1)
                 etatEnJeu(false)
+                SenraDiscord.etat('launcher')
+                proc = null
             })
-
-            // Init Discord Hook
-            if(distro.rawDistribution.discord != null && serv.rawServer.discord != null){
-                DiscordWrapper.initRPC(distro.rawDistribution.discord, serv.rawServer.discord)
-                hasRPC = true
-                proc.on('close', (code, signal) => {
-                    loggerLaunchSuite.info('Shutting down Discord Rich Presence..')
-                    DiscordWrapper.shutdownRPC()
-                    hasRPC = false
-                    proc = null
-                })
-            }
 
         } catch(err) {
 
             clearInterval(avance)
             clearTimeout(secours)
+            SenraDiscord.etat('launcher')
             loggerLaunchSuite.error('Error during launch', err)
             showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), Lang.queryJS('landing.dlAsync.checkConsoleForDetails'))
 
