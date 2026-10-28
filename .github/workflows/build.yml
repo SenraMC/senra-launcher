@@ -12,9 +12,15 @@ jobs:
     permissions:
       contents: write
 
+    # un système qui échoue n'arrête pas les autres ; jamais plus de 45 min par machine
+    timeout-minutes: 45
+
     strategy:
+      fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        # Mac Intel : les Mac arm64 de GitHub (macos-latest) sont saturés et laissaient la tâche sans machine
+        # (beta.10) ; un Mac Intel fabrique aussi bien les deux .dmg (Intel et Apple Silicon)
+        os: [macos-15-intel, ubuntu-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v6
