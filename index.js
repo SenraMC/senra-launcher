@@ -2,7 +2,7 @@ const remoteMain = require('@electron/remote/main')
 remoteMain.initialize()
 
 // Requirements
-const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu, nativeImage, shell, Tray } = require('electron')
 const autoUpdater                       = require('electron-updater').autoUpdater
 const ejse                              = require('ejs-electron')
 const fs                                = require('fs')
@@ -265,6 +265,14 @@ function createWindow() {
 
     win.resizable = true
 
+    // en jeu, fermer le launcher le range dans la zone de notification (le jeu et le statut Discord continuent)
+    win.on('close', (e) => {
+        if(plateau != null && !quitter){
+            e.preventDefault()
+            win.hide()
+        }
+    })
+
     win.on('closed', () => {
         win = null
     })
@@ -349,6 +357,55 @@ function getPlatformIcon(filename){
 
     return path.join(__dirname, 'app', 'assets', 'images', `${filename}.${ext}`)
 }
+
+// Senra : pendant que le joueur est en jeu, le launcher se range dans la zone de notification (en bas à droite) ;
+// un clic sur l'icône le rouvre, il revient tout seul quand le jeu se ferme, et sa croix le range au lieu de le fermer.
+let plateau = null
+let quitter = false
+
+function montrerLauncher() {
+    if(win != null && !win.isDestroyed()){
+        if(win.isMinimized()){
+            win.restore()
+        }
+        win.show()
+        win.focus()
+    }
+}
+
+function iconePlateau() {
+    const taille = process.platform === 'darwin' ? 18 : 32
+    return nativeImage.createFromPath(path.join(__dirname, 'app', 'assets', 'images', 'SenraIcon.png')).resize({ width: taille, height: taille })
+}
+
+ipcMain.on('senraEnJeu', (event, enJeu) => {
+    if(win == null || win.isDestroyed()){
+        return
+    }
+    if(enJeu){
+        if(plateau == null){
+            plateau = new Tray(iconePlateau())
+            plateau.setToolTip('Senra Launcher · en jeu')
+            plateau.setContextMenu(Menu.buildFromTemplate([
+                { label: 'Ouvrir le launcher', click: montrerLauncher },
+                { type: 'separator' },
+                { label: 'Quitter le launcher', click: () => { quitter = true; app.quit() } }
+            ]))
+            plateau.on('click', montrerLauncher)
+        }
+        win.hide()
+    } else {
+        if(plateau != null){
+            plateau.destroy()
+            plateau = null
+        }
+        montrerLauncher()
+    }
+})
+
+app.on('before-quit', () => {
+    quitter = true
+})
 
 app.on('ready', createWindow)
 app.on('ready', createMenu)

@@ -96,6 +96,8 @@ function toggleLaunchArea(loading){
  */
 function etatEnJeu(enJeu){
     jeuOuvert = enJeu
+    // en jeu, le launcher se range dans la zone de notification ; il revient quand le jeu se ferme
+    ipcRenderer.send('senraEnJeu', enJeu)
     document.getElementById('senraTexteJouer').textContent = enJeu ? 'En jeu' : 'Jouer'
     toggleLaunchArea(false)
     if(enJeu){
