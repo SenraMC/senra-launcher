@@ -335,6 +335,44 @@ let serverStatusListener = setInterval(() => refreshServerStatus(true), 300000)
  * @param {string} title The overlay title.
  * @param {string} desc The overlay description.
  */
+// Senra : Minecraft s'est fermé avant d'avoir fini de charger. On montre la cause trouvée dans ses dernières lignes
+// (mod manquant ou incompatible, mixin, mémoire…) et un bouton pour ouvrir ses journaux, au lieu de revenir en silence.
+const CAUSES_PLANTAGE = [
+    /Incompatible mods? found|Mod resolution (failed|encountered)|requires .*(version|mod)|is incompatible with/i,
+    /Mixin apply .*failed|InvalidInjectionException|MixinApplyError|MixinTransformerError/i,
+    /OutOfMemoryError|Could not reserve enough space|Invalid maximum heap size|Could not create the Java Virtual Machine/i,
+    /Caused by: /,
+    /Exception|Error:/
+]
+function montrerPlantage(lignes, code, dossierJeu){
+    const propre = l => l.replace(/^\[[^\]]*\] \[[^\]]*\](?: \([^)]*\))?:? ?/, '').trim()
+    let cause = []
+    for(const re of CAUSES_PLANTAGE){
+        const i = lignes.findLastIndex(l => re.test(l))
+        if(i >= 0){
+            cause = lignes.slice(i, i + 4).map(propre).filter(l => l.length > 0)
+            break
+        }
+    }
+    const echapper = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+    const texte = (cause.length > 0 ? cause.join(' · ').slice(0, 400) : `Code de sortie ${code}.`)
+    setOverlayContent(
+        'Minecraft n\'a pas pu démarrer',
+        `Le jeu s'est fermé pendant son chargement.<br><br><code>${echapper(texte)}</code><br><br>`
+            + 'Envoie au staff le fichier <b>latest.log</b> (dossier « logs ») ou le rapport du dossier « crash-reports ».',
+        'Ouvrir les journaux',
+        'Fermer'
+    )
+    setOverlayHandler(() => {
+        const fs = require('fs')
+        const rapports = require('path').join(dossierJeu, 'crash-reports')
+        shell.openPath(fs.existsSync(rapports) && fs.readdirSync(rapports).length > 0 ? rapports : require('path').join(dossierJeu, 'logs'))
+        toggleOverlay(false)
+    })
+    setDismissHandler(() => toggleOverlay(false))
+    toggleOverlay(true, true)
+}
+
 function showLaunchFailure(title, desc){
     setOverlayContent(
         title,
@@ -709,20 +747,29 @@ async function dlAsync(login = true) {
             proc.stderr.on('data', gameErrorListener)
             // Senra : statut Discord, d'après les lignes « [SenraHUD] PRESENCE … » du journal (Senra RP, Build, menus…)
             let resteJournal = ''
+            const dernieresLignes = []
+            let jeuPret = false
+            const garder = lignes => {
+                dernieresLignes.push(...lignes)
+                dernieresLignes.splice(0, Math.max(0, dernieresLignes.length - 400))
+            }
             proc.stdout.on('data', data => {
                 const lignes = (resteJournal + data.toString()).split(/\r?\n/)
                 resteJournal = lignes.pop()
+                garder(lignes)
                 lignes.forEach(SenraDiscord.lireJournal)
                 if(lignes.some(l => l.includes('[SenraHUD] JEU_PRET'))){
+                    jeuPret = true
                     rangerLauncher()
                 }
             })
+            proc.stderr.on('data', data => garder(data.toString().split(/\r?\n/)))
 
             setLaunchDetails('Démarrage de Java…')
             setDownloadPercentage(0)
 
             // jeu fermé (ou planté au démarrage) : le bouton Jouer revient
-            proc.on('close', () => {
+            proc.on('close', (code) => {
                 jeuFerme = true
                 clearInterval(avance)
                 clearTimeout(secours)
@@ -730,6 +777,10 @@ async function dlAsync(login = true) {
                 etatEnJeu(false)
                 SenraDiscord.etat('launcher')
                 proc = null
+                if(!jeuPret && code !== 0 && code != null){
+                    loggerLaunchSuite.error(`Minecraft s'est fermé au démarrage (code ${code}).`)
+                    montrerPlantage(dernieresLignes, code, require('path').join(ConfigManager.getInstanceDirectory(), serv.rawServer.id))
+                }
             })
 
         } catch(err) {
