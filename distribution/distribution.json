@@ -1108,5 +1108,20 @@
         }
       ]
     }
-  ]
+  ],
+  "discord": {
+    "clientId": "1565425670794780742",
+    "image": "senra",
+    "texteImage": "Senra Naruto RP",
+    "boutons": [
+      {
+        "label": "Rejoindre le Discord",
+        "url": "https://discord.gg/R83qudYmGT"
+      },
+      {
+        "label": "Site de Senra",
+        "url": "https://senramc.fr"
+      }
+    ]
+  }
 }
