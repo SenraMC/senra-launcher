@@ -24,6 +24,78 @@ function envoyerMaj(event, ...args) {
     }
 }
 
+// Senra (Linux) : la mise à jour automatique ne marche que pour l'AppImage lancé depuis son fichier, ou le .deb.
+// Installé autrement (AppImage décompressé ou déplacé par un outil), on vérifie quand même la dernière version sur GitHub
+// et on propose de la télécharger.
+function majAutoPossible() {
+    if(process.platform !== 'linux' || process.env.APPIMAGE){
+        return true
+    }
+    try {
+        return ['deb', 'rpm', 'pacman'].includes(fs.readFileSync(path.join(process.resourcesPath, 'package-type'), 'utf8').trim())
+    } catch(err) {
+        return false
+    }
+}
+
+async function verifierMajManuelle(event) {
+    try {
+        const reponse = await fetch('https://api.github.com/repos/SenraMC/senra-launcher/releases/latest', { headers: { 'User-Agent': 'senra-launcher' } })
+        const derniere = (await reponse.json()).tag_name.replace(/^v/, '')
+        if(semver.valid(derniere) && semver.gt(derniere, app.getVersion())){
+            envoyerMaj(event, 'update-available', { version: derniere, manuel: true, lien: 'https://github.com/SenraMC/senra-launcher/releases/latest' })
+            return
+        }
+    } catch(err) {
+        console.log('Vérification de la dernière version impossible', err)
+    }
+    envoyerMaj(event, 'update-not-available', {})
+}
+
+// Senra (Linux, AppImage) : raccourci dans le menu des applications (refait à chaque lancement : le chemin change
+// à chaque mise à jour), et une fois sur le bureau
+function integrerAppImage() {
+    if(process.platform !== 'linux' || !process.env.APPIMAGE){
+        return
+    }
+    try {
+        const os = require('os')
+        const maison = os.homedir()
+        const icones = path.join(maison, '.local', 'share', 'icons', 'hicolor', '256x256', 'apps')
+        const applis = path.join(maison, '.local', 'share', 'applications')
+        fs.mkdirSync(icones, { recursive: true })
+        fs.mkdirSync(applis, { recursive: true })
+        fs.copyFileSync(path.join(__dirname, 'app', 'assets', 'images', 'SenraIcon.png'), path.join(icones, 'senra-launcher.png'))
+        const entree = [
+            '[Desktop Entry]',
+            'Type=Application',
+            'Name=Senra Launcher',
+            'Comment=Launcher du serveur Senra Naruto RP',
+            `Exec="${process.env.APPIMAGE}" %U`,
+            'Icon=senra-launcher',
+            'Terminal=false',
+            'Categories=Game;',
+            ''
+        ].join('\n')
+        fs.writeFileSync(path.join(applis, 'senra-launcher.desktop'), entree, { mode: 0o755 })
+        const marque = path.join(app.getPath('userData'), 'raccourci-bureau-cree')
+        if(!fs.existsSync(marque)){
+            let bureau = path.join(maison, 'Desktop')
+            try {
+                bureau = require('child_process').execFileSync('xdg-user-dir', ['DESKTOP']).toString().trim() || bureau
+            } catch(err) {
+                // pas de xdg-user-dir : ~/Desktop
+            }
+            if(fs.existsSync(bureau)){
+                fs.writeFileSync(path.join(bureau, 'senra-launcher.desktop'), entree, { mode: 0o755 })
+            }
+            fs.writeFileSync(marque, '')
+        }
+    } catch(err) {
+        console.log('Raccourci Linux impossible', err)
+    }
+}
+
 // Setup auto updater.
 function initAutoUpdater(event, data) {
 
@@ -59,6 +131,10 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
             event.sender.send('autoUpdateNotification', 'ready')
             break
         case 'checkForUpdate':
+            if(!majAutoPossible()){
+                verifierMajManuelle(event)
+                break
+            }
             autoUpdater.checkForUpdates()
                 .catch(err => envoyerMaj(event, 'realerror', err))
             break
@@ -421,6 +497,7 @@ app.on('before-quit', () => {
 
 app.on('ready', createWindow)
 app.on('ready', createMenu)
+app.on('ready', integrerAppImage)
 
 app.on('window-all-closed', () => {
     // On macOS it is common for applications and their menu bar

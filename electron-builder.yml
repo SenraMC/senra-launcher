@@ -40,7 +40,13 @@ mac:
   category: 'public.app-category.games'
 
 linux:
-  target: 'AppImage'
+  # AppImage (toutes les distributions) + .deb (Debian, Ubuntu, Mint, Kali…) : le .deb s'installe avec son raccourci
+  # dans le menu et se met à jour tout seul (le système demande le mot de passe)
+  target:
+    - 'AppImage'
+    - 'deb'
+  executableName: 'senra-launcher'
+  icon: 'build/icon.png'
   maintainer: 'Senra'
   vendor: 'Senra'
   synopsis: 'Launcher du serveur Senra Naruto RP'

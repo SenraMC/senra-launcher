@@ -64,9 +64,13 @@ if(!isDev){
                 if(process.platform === 'darwin'){
                     info.darwindownload = `https://github.com/SenraMC/senra-launcher/releases/download/v${info.version}/Senra-Launcher-setup-${info.version}${process.arch === 'arm64' ? '-arm64' : '-x64'}.dmg`
                 }
+                // Linux installé sans AppImage ni .deb : pas d'installation automatique, on ouvre la page de la version
+                if(info.manuel){
+                    info.darwindownload = info.lien
+                }
                 majProposee = info
                 populateSettingsUpdateInformation(info)
-                if(process.platform !== 'darwin'){
+                if(process.platform !== 'darwin' && !info.manuel){
                     settingsUpdateButtonStatus('Mettre à jour maintenant', false, accepterMaj)
                 }
                 if(premiereVerification){
@@ -216,16 +220,24 @@ function proposerMaj(info){
     ecranMaj({
         titre: 'Mise à jour disponible',
         version: `Senra Launcher ${info.version}`,
-        etat: 'Cette mise à jour est nécessaire pour continuer. Elle s\'installe toute seule, puis le launcher se rouvre.',
-        boutons: [{ texte: 'Mettre à jour', principal: true, action: accepterMaj }, { texte: 'Quitter', action: quitterLauncher }]
+        etat: telechargementManuel(info)
+            ? 'Cette mise à jour est nécessaire pour continuer. Télécharge-la, installe-la, puis relance le launcher.'
+            : 'Cette mise à jour est nécessaire pour continuer. Elle s\'installe toute seule, puis le launcher se rouvre.',
+        boutons: [{ texte: telechargementManuel(info) ? 'Télécharger' : 'Mettre à jour', principal: true, action: accepterMaj },
+            { texte: 'Quitter', action: quitterLauncher }]
     })
+}
+
+/** macOS (pas d'installation sans signature Apple) et Linux installé sans AppImage ni .deb : on télécharge à la main. */
+function telechargementManuel(info){
+    return process.platform === 'darwin' || (info != null && info.manuel === true)
 }
 
 function accepterMaj(){
     if(majProposee == null){
         return
     }
-    if(process.platform === 'darwin'){
+    if(telechargementManuel(majProposee)){
         shell.openExternal(majProposee.darwindownload)
         quitterLauncher()
         return
