@@ -72,6 +72,8 @@ function popupMaj(titre, texte){
     popup.querySelector('h2').textContent = titre
     popup.querySelector('.texte').textContent = texte
     popup.querySelector('button').focus()
+    // le launcher rangé dans la zone de notification réapparaît (sans prendre la main sur le jeu)
+    ipcRenderer.send('senraMontrer')
     try {
         remote.getCurrentWindow().flashFrame(true)
         new Notification(titre, { body: texte, icon: 'assets/images/SenraIcon.png', silent: false })

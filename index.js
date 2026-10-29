@@ -403,6 +403,18 @@ ipcMain.on('senraEnJeu', (event, enJeu) => {
     }
 })
 
+// une mise à jour (launcher ou mods) arrive pendant que le launcher est rangé : il réapparaît, sans prendre
+// le focus au jeu (sa fenêtre revient et clignote dans la barre des tâches)
+ipcMain.on('senraMontrer', () => {
+    if(win == null || win.isDestroyed()){
+        return
+    }
+    if(!win.isVisible()){
+        win.showInactive()
+    }
+    win.flashFrame(true)
+})
+
 app.on('before-quit', () => {
     quitter = true
 })
