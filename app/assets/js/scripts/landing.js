@@ -96,8 +96,10 @@ function toggleLaunchArea(loading){
  */
 function etatEnJeu(enJeu){
     jeuOuvert = enJeu
-    // en jeu, le launcher se range dans la zone de notification ; il revient quand le jeu se ferme
-    ipcRenderer.send('senraEnJeu', enJeu)
+    // jeu fermé : le launcher revient (il s'est rangé dans la zone de notification quand le jeu a fini de charger)
+    if(!enJeu){
+        ipcRenderer.send('senraEnJeu', false)
+    }
     document.getElementById('senraTexteJouer').textContent = enJeu ? 'En jeu' : 'Jouer'
     toggleLaunchArea(false)
     if(enJeu){
@@ -613,6 +615,15 @@ async function dlAsync(login = true) {
         const SERVER_JOINED_REGEX = new RegExp(`\\[.+\\]: \\[CHAT\\] ${authUser.displayName} joined the game`)
 
         let jeuFerme = false
+        let secoursRangement = null
+        let launcherRange = false
+        const rangerLauncher = () => {
+            clearTimeout(secoursRangement)
+            if(!launcherRange && !jeuFerme){
+                launcherRange = true
+                ipcRenderer.send('senraEnJeu', true)
+            }
+        }
         const onLoadComplete = () => {
             if(jeuFerme || proc == null){
                 return
@@ -620,6 +631,8 @@ async function dlAsync(login = true) {
             remote.getCurrentWindow().setProgressBar(-1)
             etatEnJeu(true)
             SenraDiscord.etat('menus')
+            // sans le signal « jeu prêt » (vieux SenraHUD), le launcher se range quand même au bout d'une minute
+            secoursRangement = setTimeout(rangerLauncher, 60000)
             proc.stdout.removeListener('data', tempListener)
             proc.stderr.removeListener('data', gameErrorListener)
         }
@@ -700,6 +713,9 @@ async function dlAsync(login = true) {
                 const lignes = (resteJournal + data.toString()).split(/\r?\n/)
                 resteJournal = lignes.pop()
                 lignes.forEach(SenraDiscord.lireJournal)
+                if(lignes.some(l => l.includes('[SenraHUD] JEU_PRET'))){
+                    rangerLauncher()
+                }
             })
 
             setLaunchDetails('Démarrage de Java…')
