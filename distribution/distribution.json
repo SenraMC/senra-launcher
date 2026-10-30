@@ -923,8 +923,8 @@
             "poids": "leger",
             "memoire": 0,
             "libs": [
-              "yacl",
-              "fabric-language-kotlin"
+              "fabric-language-kotlin",
+              "yacl"
             ],
             "icone": "https://cdn.modrinth.com/data/w7ThoJFB/e2de67a0bfb9e8aa2347982ab3ec5463f26cca31_96.webp",
             "version": "2.15.2+1.21.11",
