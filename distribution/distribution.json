@@ -297,7 +297,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-academie:1.4.0+mc1.21.11@jar",
+          "id": "fr.senramc.mods:senra-academie:2.0.0+mc1.21.11@jar",
           "name": "Senra Académie",
           "type": "FabricMod",
           "required": {
@@ -305,8 +305,8 @@
             "def": true
           },
           "artifact": {
-            "size": 2447668,
-            "MD5": "82d21e958602aaff2eceec2661b5c501",
+            "size": 2436456,
+            "MD5": "de7d439dcf06f7d6292643d6521d2327",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-academie.jar"
           },
           "senra": {
@@ -315,7 +315,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.4.0+mc1.21.11"
+            "version": "2.0.0+mc1.21.11"
           }
         },
         {
