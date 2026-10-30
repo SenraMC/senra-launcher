@@ -275,7 +275,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-cam:1.4.0+mc1.21.11@jar",
+          "id": "fr.senramc.mods:senra-cam:1.6.0+mc1.21.11@jar",
           "name": "Senra Cam",
           "type": "FabricMod",
           "required": {
@@ -283,8 +283,8 @@
             "def": true
           },
           "artifact": {
-            "size": 14134,
-            "MD5": "8089e4924c2715e593e90985582c4b49",
+            "size": 14688,
+            "MD5": "fa05dc7ea7e0308056ea419c61184dab",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-cam.jar"
           },
           "senra": {
@@ -293,7 +293,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.4.0+mc1.21.11"
+            "version": "1.6.0+mc1.21.11"
           }
         },
         {
