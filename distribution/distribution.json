@@ -253,7 +253,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-hud:1.6.1@jar",
+          "id": "fr.senramc.mods:senra-hud:1.6.2@jar",
           "name": "SenraHUD",
           "type": "FabricMod",
           "required": {
@@ -261,8 +261,8 @@
             "def": true
           },
           "artifact": {
-            "size": 3715149,
-            "MD5": "6a3f578477d115cfc013e0f23a2b5ee3",
+            "size": 3725075,
+            "MD5": "ef7c2a85d1e56d0fe61142c71b2cf94a",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-hud.jar"
           },
           "senra": {
@@ -271,7 +271,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.6.1"
+            "version": "1.6.2"
           }
         },
         {
@@ -982,50 +982,27 @@
           }
         },
         {
-          "id": "fr.senramc.mods:yacl:3.8.2+1.21.11-fabric@jar",
-          "name": "YetAnotherConfigLib (YACL)",
+          "id": "fr.senramc.mods:cloth-config:21.11.153+fabric@jar",
+          "name": "Cloth Config API",
           "type": "FabricMod",
           "required": {
             "value": true,
             "def": true
           },
           "artifact": {
-            "size": 1126948,
-            "MD5": "0de1337147953ff71854bfd4ce874629",
-            "url": "https://cdn.modrinth.com/data/1eAoo2KR/versions/pHWDw3Vc/yet_another_config_lib_v3-3.8.2%2B1.21.11-fabric.jar"
+            "size": 1148427,
+            "MD5": "9de770889c2b19445f57f881e4f7d6f8",
+            "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/xuX40TN5/cloth-config-21.11.153-fabric.jar"
           },
           "senra": {
             "categorie": "bibliotheque",
             "pour": [
-              "zoomify"
+              "senra-gravity",
+              "moreculling"
             ],
             "libs": [],
-            "icone": "https://cdn.modrinth.com/data/1eAoo2KR/08c0cd32515e260f4bb20bbc0696510041523f9a_96.webp",
-            "version": "3.8.2+1.21.11-fabric",
-            "beta": false
-          }
-        },
-        {
-          "id": "fr.senramc.mods:fabric-language-kotlin:1.14.2+kotlin.2.4.21@jar",
-          "name": "Fabric Language Kotlin",
-          "type": "FabricMod",
-          "required": {
-            "value": true,
-            "def": true
-          },
-          "artifact": {
-            "size": 8142878,
-            "MD5": "08b201c7d0e80ba7a3d77cca0b2d3d3f",
-            "url": "https://cdn.modrinth.com/data/Ha28R6CL/versions/SKW1BTL3/fabric-language-kotlin-1.14.2%2Bkotlin.2.4.21.jar"
-          },
-          "senra": {
-            "categorie": "bibliotheque",
-            "pour": [
-              "zoomify"
-            ],
-            "libs": [],
-            "icone": "https://cdn.modrinth.com/data/Ha28R6CL/72c3d74aeb665e45aea93a945a01474cbce3b7da_96.webp",
-            "version": "1.14.2+kotlin.2.4.21",
+            "icone": "https://cdn.modrinth.com/data/9s6osm5g/ed8a2316cbb6f4fc5f510e8e13a59a85cbbbff4d_96.webp",
+            "version": "21.11.153+fabric",
             "beta": false
           }
         },
@@ -1050,6 +1027,30 @@
             "libs": [],
             "icone": "https://cdn.modrinth.com/data/OsZiaDHq/4953ecd3c0c8b185b2a56d64cdb104b03f3e5038_96.webp",
             "version": "2.14.11",
+            "beta": false
+          }
+        },
+        {
+          "id": "fr.senramc.mods:fabric-language-kotlin:1.14.2+kotlin.2.4.21@jar",
+          "name": "Fabric Language Kotlin",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 8142878,
+            "MD5": "08b201c7d0e80ba7a3d77cca0b2d3d3f",
+            "url": "https://cdn.modrinth.com/data/Ha28R6CL/versions/SKW1BTL3/fabric-language-kotlin-1.14.2%2Bkotlin.2.4.21.jar"
+          },
+          "senra": {
+            "categorie": "bibliotheque",
+            "pour": [
+              "zoomify"
+            ],
+            "libs": [],
+            "icone": "https://cdn.modrinth.com/data/Ha28R6CL/72c3d74aeb665e45aea93a945a01474cbce3b7da_96.webp",
+            "version": "1.14.2+kotlin.2.4.21",
             "beta": false
           }
         },
@@ -1126,27 +1127,26 @@
           }
         },
         {
-          "id": "fr.senramc.mods:cloth-config:21.11.153+fabric@jar",
-          "name": "Cloth Config API",
+          "id": "fr.senramc.mods:yacl:3.8.2+1.21.11-fabric@jar",
+          "name": "YetAnotherConfigLib (YACL)",
           "type": "FabricMod",
           "required": {
             "value": true,
             "def": true
           },
           "artifact": {
-            "size": 1148427,
-            "MD5": "9de770889c2b19445f57f881e4f7d6f8",
-            "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/xuX40TN5/cloth-config-21.11.153-fabric.jar"
+            "size": 1126948,
+            "MD5": "0de1337147953ff71854bfd4ce874629",
+            "url": "https://cdn.modrinth.com/data/1eAoo2KR/versions/pHWDw3Vc/yet_another_config_lib_v3-3.8.2%2B1.21.11-fabric.jar"
           },
           "senra": {
             "categorie": "bibliotheque",
             "pour": [
-              "senra-gravity",
-              "moreculling"
+              "zoomify"
             ],
             "libs": [],
-            "icone": "https://cdn.modrinth.com/data/9s6osm5g/ed8a2316cbb6f4fc5f510e8e13a59a85cbbbff4d_96.webp",
-            "version": "21.11.153+fabric",
+            "icone": "https://cdn.modrinth.com/data/1eAoo2KR/08c0cd32515e260f4bb20bbc0696510041523f9a_96.webp",
+            "version": "3.8.2+1.21.11-fabric",
             "beta": false
           }
         }
