@@ -297,6 +297,28 @@
           }
         },
         {
+          "id": "fr.senramc.mods:senra-academie:1.1.0+mc1.21.11@jar",
+          "name": "Senra Académie",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 615139,
+            "MD5": "0567ee13114ffde911bdcc0655a277ae",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-academie.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "L'épreuve des mudras des cours de l'Académie (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.1.0+mc1.21.11"
+          }
+        },
+        {
           "id": "fr.senramc.mods:emotecraft:3.2.0-b.build.163+1.21.11-fabric@jar",
           "name": "Emotecraft",
           "type": "FabricMod",
