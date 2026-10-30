@@ -253,7 +253,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-hud:1.3.1@jar",
+          "id": "fr.senramc.mods:senra-hud:1.4.0@jar",
           "name": "SenraHUD",
           "type": "FabricMod",
           "required": {
@@ -261,8 +261,8 @@
             "def": true
           },
           "artifact": {
-            "size": 3658137,
-            "MD5": "9041ff74b6d8ca14b407c83ee111527c",
+            "size": 3676606,
+            "MD5": "a65d138d4e92f30b4516ac6c81a8e67f",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-hud.jar"
           },
           "senra": {
@@ -271,7 +271,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.3.1"
+            "version": "1.4.0"
           }
         },
         {
