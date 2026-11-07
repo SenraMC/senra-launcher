@@ -319,7 +319,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:chatsplit:1.0.0+mc1.21.11@jar",
+          "id": "fr.senramc.mods:chatsplit:1.1.0+mc1.21.11@jar",
           "name": "ChatSplit",
           "type": "FabricMod",
           "required": {
@@ -327,8 +327,8 @@
             "def": true
           },
           "artifact": {
-            "size": 22973,
-            "MD5": "0f079e3511756c5f66829caccf3fb3a2",
+            "size": 23462,
+            "MD5": "de30d419d24447c285adf586c91f28fc",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/chatsplit.jar"
           },
           "senra": {
@@ -337,7 +337,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.0.0+mc1.21.11"
+            "version": "1.1.0+mc1.21.11"
           }
         },
         {
