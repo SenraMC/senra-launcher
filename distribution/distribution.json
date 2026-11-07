@@ -319,6 +319,28 @@
           }
         },
         {
+          "id": "fr.senramc.mods:chatsplit:1.0.0+mc1.21.11@jar",
+          "name": "ChatSplit",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 22973,
+            "MD5": "0f079e3511756c5f66829caccf3fb3a2",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/chatsplit.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Le chat séparé en onglets HRP, RP et Staff, avec les messages non lus (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.0.0+mc1.21.11"
+          }
+        },
+        {
           "id": "fr.senramc.mods:emotecraft:3.2.0-b.build.163+1.21.11-fabric@jar",
           "name": "Emotecraft",
           "type": "FabricMod",
