@@ -341,16 +341,16 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-missions:1.0.0@jar",
-          "name": "SenraMissions",
+          "id": "fr.senramc.mods:senra-missions:1.0.0-raw@jar",
+          "name": "Senra Mission",
           "type": "FabricMod",
           "required": {
             "value": true,
             "def": true
           },
           "artifact": {
-            "size": 2083764,
-            "MD5": "971dd8d5d195fb7e5a2c9fc92cf667a5",
+            "size": 1968798,
+            "MD5": "283277e57f8ccea0e82eb0ac354afdbb",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-missions.jar"
           },
           "senra": {
@@ -359,7 +359,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.0.0"
+            "version": "1.0.0-raw"
           }
         },
         {
