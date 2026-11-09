@@ -341,28 +341,6 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-missions:1.0.0-raw@jar",
-          "name": "Senra Mission",
-          "type": "FabricMod",
-          "required": {
-            "value": true,
-            "def": true
-          },
-          "artifact": {
-            "size": 1968798,
-            "MD5": "283277e57f8ccea0e82eb0ac354afdbb",
-            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-missions.jar"
-          },
-          "senra": {
-            "categorie": "obligatoires",
-            "desc": "Le tableau des missions et le journal de mission sur parchemin vert (mod maison).",
-            "maison": true,
-            "icone": null,
-            "libs": [],
-            "version": "1.0.0-raw"
-          }
-        },
-        {
           "id": "fr.senramc.mods:emotecraft:3.2.0-b.build.163+1.21.11-fabric@jar",
           "name": "Emotecraft",
           "type": "FabricMod",
