@@ -297,7 +297,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-academie:2.7.3+mc1.21.11@jar",
+          "id": "fr.senramc.mods:senra-academie:2.7.4+mc1.21.11@jar",
           "name": "Senra Académie",
           "type": "FabricMod",
           "required": {
@@ -305,8 +305,8 @@
             "def": true
           },
           "artifact": {
-            "size": 2771165,
-            "MD5": "e527e4bb3b3ca637edfaecb85604ea17",
+            "size": 2771166,
+            "MD5": "37a0528f91d8b606a3ac08c2d7b2c705",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-academie.jar"
           },
           "senra": {
@@ -315,7 +315,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "2.7.3+mc1.21.11"
+            "version": "2.7.4+mc1.21.11"
           }
         },
         {
@@ -338,6 +338,50 @@
             "icone": null,
             "libs": [],
             "version": "1.2.0+mc1.21.11"
+          }
+        },
+        {
+          "id": "fr.senramc.mods:senra-missions:1.0.8@jar",
+          "name": "SenraMissions",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 2047251,
+            "MD5": "a7f87568ddc7ffebb362f24249eab94c",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-missions.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Le tableau des missions (rangs E à SS) et le journal de mission sur parchemin vert (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.0.8"
+          }
+        },
+        {
+          "id": "fr.senramc.mods:senra-roue:1.0.18@jar",
+          "name": "Senra Roue",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 298548,
+            "MD5": "0610efcdabb840d8cc3be60969851f2d",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-roue.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "La roue d'actions ninja, raccourcis de commandes (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.0.18"
           }
         },
         {
