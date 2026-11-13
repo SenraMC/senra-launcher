@@ -229,7 +229,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-gravity:1.5.2-port.7+mc1.21.11@jar",
+          "id": "fr.senramc.mods:senra-gravity:1.5.2-port.8+mc1.21.11@jar",
           "name": "Senra Gravité",
           "type": "FabricMod",
           "required": {
@@ -237,8 +237,8 @@
             "def": true
           },
           "artifact": {
-            "size": 131124,
-            "MD5": "441b47f782c8f4720c2e155c2feebb8d",
+            "size": 132103,
+            "MD5": "db2b56e28f5ef81fc3f7000919aa1c65",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-gravity.jar"
           },
           "senra": {
@@ -249,7 +249,7 @@
             "libs": [
               "cloth-config"
             ],
-            "version": "1.5.2-port.7+mc1.21.11"
+            "version": "1.5.2-port.8+mc1.21.11"
           }
         },
         {
