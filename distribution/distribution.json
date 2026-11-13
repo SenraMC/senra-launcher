@@ -341,6 +341,28 @@
           }
         },
         {
+          "id": "fr.senramc.mods:senra-dressing:1.0.0+mc1.21.11@jar",
+          "name": "Senra Dressing",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 2539298,
+            "MD5": "e896aa724373709f13c7e106411819da",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-dressing.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Dressing des tenues RP : aperçu du personnage en 360°, skins enregistrés, copies à emporter, touche G (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.0.0+mc1.21.11"
+          }
+        },
+        {
           "id": "fr.senramc.mods:emotecraft:3.2.0-b.build.163+1.21.11-fabric@jar",
           "name": "Emotecraft",
           "type": "FabricMod",
