@@ -341,7 +341,7 @@
           }
         },
         {
-          "id": "fr.senramc.mods:senra-dressing:1.0.1+mc1.21.11@jar",
+          "id": "fr.senramc.mods:senra-dressing:1.0.2+mc1.21.11@jar",
           "name": "Senra Dressing",
           "type": "FabricMod",
           "required": {
@@ -349,8 +349,8 @@
             "def": true
           },
           "artifact": {
-            "size": 2538570,
-            "MD5": "50432d0a139f8d3fde93be63c8a78871",
+            "size": 2516908,
+            "MD5": "75529fb2507790c46a4cc3f90020cfd8",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-dressing.jar"
           },
           "senra": {
@@ -359,7 +359,7 @@
             "maison": true,
             "icone": null,
             "libs": [],
-            "version": "1.0.1+mc1.21.11"
+            "version": "1.0.2+mc1.21.11"
           }
         },
         {
