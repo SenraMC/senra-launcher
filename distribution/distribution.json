@@ -319,28 +319,6 @@
           }
         },
         {
-          "id": "fr.senramc.mods:chatsplit:1.2.0+mc1.21.11@jar",
-          "name": "ChatSplit",
-          "type": "FabricMod",
-          "required": {
-            "value": true,
-            "def": true
-          },
-          "artifact": {
-            "size": 23613,
-            "MD5": "c440c5aa95f4e0635daea65a3b368813",
-            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/chatsplit.jar"
-          },
-          "senra": {
-            "categorie": "obligatoires",
-            "desc": "Le chat séparé en onglets HRP, RP et Staff, avec les messages non lus (mod maison).",
-            "maison": true,
-            "icone": null,
-            "libs": [],
-            "version": "1.2.0+mc1.21.11"
-          }
-        },
-        {
           "id": "fr.senramc.mods:senra-missions:1.0.8@jar",
           "name": "SenraMissions",
           "type": "FabricMod",
@@ -360,28 +338,6 @@
             "icone": null,
             "libs": [],
             "version": "1.0.8"
-          }
-        },
-        {
-          "id": "fr.senramc.mods:senra-roue:1.0.18@jar",
-          "name": "Senra Roue",
-          "type": "FabricMod",
-          "required": {
-            "value": true,
-            "def": true
-          },
-          "artifact": {
-            "size": 298548,
-            "MD5": "0610efcdabb840d8cc3be60969851f2d",
-            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-roue.jar"
-          },
-          "senra": {
-            "categorie": "obligatoires",
-            "desc": "La roue d'actions ninja, raccourcis de commandes (mod maison).",
-            "maison": true,
-            "icone": null,
-            "libs": [],
-            "version": "1.0.18"
           }
         },
         {
