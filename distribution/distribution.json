@@ -261,8 +261,8 @@
             "def": true
           },
           "artifact": {
-            "size": 5759826,
-            "MD5": "ae8690d1a51b29d2832d9ac61942df0b",
+            "size": 5777093,
+            "MD5": "aeed75f8da6d36719343023a123a6d85",
             "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-hud.jar"
           },
           "senra": {
@@ -319,6 +319,28 @@
           }
         },
         {
+          "id": "fr.senramc.mods:chatsplit:1.4.1+mc1.21.11@jar",
+          "name": "ChatSplit",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 41983,
+            "MD5": "42595a5d88945e326ed27de64f0af661",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/chatsplit.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "Le chat séparé en onglets HRP, RP et Staff, avec historique et messages non lus (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.4.1+mc1.21.11"
+          }
+        },
+        {
           "id": "fr.senramc.mods:senra-missions:1.0.8@jar",
           "name": "SenraMissions",
           "type": "FabricMod",
@@ -338,6 +360,28 @@
             "icone": null,
             "libs": [],
             "version": "1.0.8"
+          }
+        },
+        {
+          "id": "fr.senramc.mods:senra-roue:1.0.19@jar",
+          "name": "Senra Roue",
+          "type": "FabricMod",
+          "required": {
+            "value": true,
+            "def": true
+          },
+          "artifact": {
+            "size": 300503,
+            "MD5": "dd03cadfbaf4adce81dd6355e78d3bbe",
+            "url": "https://raw.githubusercontent.com/SenraMC/senra-launcher/main/distribution/fichiers/mods/senra-roue.jar"
+          },
+          "senra": {
+            "categorie": "obligatoires",
+            "desc": "La roue d'actions ninja, raccourcis de commandes (mod maison).",
+            "maison": true,
+            "icone": null,
+            "libs": [],
+            "version": "1.0.19"
           }
         },
         {
